@@ -1,0 +1,73 @@
+*{border: 0; padding: 0; margin: 0;}
+
+$font-stack: 'Open Sans', sans-serif;
+$Businesspedia-b: #003B70;
+$Businesspedia-r: #D9261C;
+$Businesspedia-g1: #CECECE;
+$Businesspedia-g2: #EEEEEE;
+$Businesspedia-w: #FFFFFF;
+
+body{
+    font-family: $font-stack;
+    background: $Businesspedia-g2;
+}
+
+.navbar{
+    width: 100%;
+    max-height: 8vh;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    background: $Businesspedia-w;
+    box-shadow: 0px 1px 5px 1px $Businesspedia-g1;
+
+    .container{
+        width: 90%;
+        max-width: 992px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        
+        #Logo{
+            max-height: 50px;
+        }
+
+        #Menu{
+            display: flex;
+            a{
+                display: block;
+                padding: 0 10px;
+                font-weight: bold;
+                text-decoration: none;
+                color: $Businesspedia-b;
+                transition: 200ms ease-in-out;
+                &:hover{
+                    color: $Businesspedia-r;
+                }
+            }
+        }
+    }
+}
+
+.btnSearch{
+    width: 100%;
+    font-size: 1.2rem;
+    border-radius: 2px;
+    padding: 10px;
+    margin:10px 0;
+}
+
+.businessProfile{
+    display: flex;
+    border-bottom: 1px solid red;
+
+    img{
+        width: auto;
+        height: 100%;
+        padding: 10px;
+    }
+}
+
+.businessDescription{
+    font-size: 0.9rem;
+}
