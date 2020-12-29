@@ -1,4 +1,6 @@
 *{border: 0; padding: 0; margin: 0;}
+ul{list-style: none;}
+li{margin-bottom: 1vh;}
 
 $font-stack: 'Open Sans', sans-serif;
 $Businesspedia-b: #003B70;
@@ -52,22 +54,24 @@ body{
 .btnSearch{
     width: 100%;
     font-size: 1.2rem;
-    border-radius: 2px;
     padding: 10px;
-    margin:10px 0;
+    margin: 10px 0;
+    border-radius: 2px;
+    border: 1px solid #cccccc;
 }
 
 .businessProfile{
     display: flex;
-    border-bottom: 1px solid red;
-
+    background: #ffffff;
+    border-radius: 2px;
+    box-shadow: 0px 1px 5px 1px $Businesspedia-g1;
+    margin-bottom: 5vh;
+    padding: 20px;
+    margin:10px;
+    
     img{
-        width: auto;
-        height: 100%;
+        width: 100%;
+        min-height: 100%;
         padding: 10px;
     }
-}
-
-.businessDescription{
-    font-size: 0.9rem;
 }

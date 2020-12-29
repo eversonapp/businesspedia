@@ -11,9 +11,9 @@ export default class BusinessSearch extends Component {
     }
     
     loadingCompany = async (companyCod) => {
-        const urlApi = "https://www.alphavantage.co/query?function=OVERVIEW&symbol=" +
+        const urlApi = "https://api.polygon.io/v1/meta/symbols/" +
         companyCod +
-        "&apikey=21456MVFYRFCAMX6" 
+        "/company?apiKey=CS4QQvffYLSCRPZG6wGVK4A4xjEzGj_P" 
         fetch(urlApi)
             .then(res => res.json())
             .then(json =>{
@@ -45,18 +45,38 @@ export default class BusinessSearch extends Component {
                     <option value="TSLA">Tesla</option>
                 </select>
 
-                <div>
-                    <div className="businessProfile">
-                        <img src={"https://storage.googleapis.com/iex/api/logos/" + this.state.company.Symbol + ".png"} alt="Logo"></img>
-                        <div>
-                            <h1>{this.state.company.Symbol} {this.state.company.Name}</h1>
-                            <p>Market Cap: {this.state.company.MarketCapitalization} / Exchange: {this.state.company.Exchange}</p>
-                            <p>Sector: {this.state.company.Sector} / Industry: {this.state.company.Industry}</p>
-                            <p>Employees: {this.state.company.FullTimeEmployees}</p>
-                            <p>Headquarters: {this.state.company.Address}</p>
-                        </div>
-                    </div>
-                    <p className="businessDescription">{this.state.company.Description}</p>
+                <div className="businessProfile">
+                    <img src={this.state.company.logo} alt="Logo"></img>
+                    <ul>
+                        <li>
+                            <h1>
+                                {this.state.company.symbol}
+                                {this.state.company.name}
+                            </h1>
+                        </li>
+                        <li>
+                            Market Cap: {this.state.company.marketcap}
+                        </li>
+                        <li>
+                            IPO {this.state.company.listdate}
+                            Exchange: {this.state.company.exchange}
+                        </li>
+                        <li>
+                            Sector: {this.state.company.sector}
+                            Industry: {this.state.company.industry}
+                        </li>
+                        <li>
+                            Employees: {this.state.company.employees}
+                            CEO: {this.state.company.ceo}
+                        </li>
+                        <li>
+                            Headquarters: {this.state.company.hq_address}
+                            Country: {this.state.company.country}
+                        </li>
+                        <li>
+                            {this.state.company.description}
+                        </li>
+                    </ul>
                 </div>
             </div>
         );
