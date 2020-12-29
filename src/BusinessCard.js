@@ -36,6 +36,8 @@ export default class BusinessSearch extends Component {
     }
 
     render() {
+        if(!this.loadingCompany){return alert("Max req")}
+
         return (
             <div>
                 <select className="btnSearch" value={this.setState.companyCod} onChange={this.handlerChange}>
