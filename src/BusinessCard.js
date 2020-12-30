@@ -8,7 +8,7 @@ export default class BusinessCard extends Component {
             companyCod: "AAPL",
 
             company: [],
-            companyData: [],
+            companyFinancials: [],
             companyNews: [],
         }
     }
@@ -26,16 +26,16 @@ export default class BusinessCard extends Component {
             })
     }
 
-    loadingBusinessData = async (companyCod) => {
-        const urlApi = 'https://financialmodelingprep.com/api/v3/income-statement/' +
-        companyCod +'?limit=120&apikey=040969b1255adee69233f0ae39fcbdfe'
+    loadingBusinessFinancials = async (companyCod) => {
+        const urlApi = 'https://api.polygon.io/v2/reference/financials/'
+        + companyCod + '?limit=10&type=YA&sort=-calendarDate&apiKey=CS4QQvffYLSCRPZG6wGVK4A4xjEzGj_P'
         fetch(urlApi)
             .then(res => res.json())
-            .then(json => {
+            .then(json => (
                 this.setState({
-                    companyData: json
+                    companyFinancials: json.results
                 })
-            })
+            ))
     }
 
     loadingBusinessNews = async (companyCod) => {
@@ -50,23 +50,30 @@ export default class BusinessCard extends Component {
             })
     }
 
+    formatingValues = (val) => {
+        if(val > 1){
+            return val + ' Billion'
+        }
+    }
+
     changeHandler = (e) => {
         const companyCod = e.target.value
         this.setState({companyCod})
 
-        this.loadingBusinessData(companyCod)
         this.loadingBusinessCard(companyCod)
+        this.loadingBusinessFinancials(companyCod)
         this.loadingBusinessNews(companyCod)
     }
 
     componentDidMount(){
-        this.loadingBusinessData(this.state.companyCod)
         this.loadingBusinessCard(this.state.companyCod)
+        this.loadingBusinessFinancials(this.state.companyCod)
         this.loadingBusinessNews(this.state.companyCod)
     }
 
     render() {
-        const {company, companyData, companyNews} = this.state
+        const {company, companyNews} = this.state
+        const {companyFinancials} = this.state
 
         return (
             <div>
@@ -138,11 +145,23 @@ export default class BusinessCard extends Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                {companyData.map(item =>(
-                                    <tr key={item.id}>
-                                        <th scope='row'> {item.calendarDate} </th>
-                                    </tr>
-                                ))}
+                            {companyFinancials.map(item => (
+                                <tr key={item.id}>
+                                    <th> {(item.calendarDate).toString().substring(0,7).replace('-','/')} </th>
+                                    <th> {this.formatingValues(item.shareholdersEquity)} </th>
+                                    <th> {item.revenues} </th>
+                                    <th> {item.earningsBeforeInterestTaxesDepreciationAmortization} </th>
+                                    <th> {item.netIncome} </th>
+                                    <th> {((item.netIncome / item.revenues) * 100).toString().substring(0,2) + '%'} </th>
+                                    <th> {(((item.returnOnAverageEquity) * 100).toString().substring(0,2)) + '%'}</th>
+                                    <th> {item.cashAndEquivalents} </th>
+                                    <th> {item.debt} </th>
+                                    <th> {(item.debt / item.earningsBeforeInterestTaxesDepreciationAmortization).toString().substring(0,3)} </th>
+                                    <th> {(item.dividendsPerBasicCommonShare).toString().substring(0,4)} </th>
+                                    <th> {((item.dividendYield).toString().substring(0,4)) + '%'} </th>
+                                </tr>
+                            ))}
+                                
                             </tbody>
                             
                         </table>    
