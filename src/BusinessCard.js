@@ -5,7 +5,10 @@ export default class BusinessCard extends Component {
         super(props);
         
         this.state = {
+            companyCod: "AAPL",
+
             company: [],
+            companyData: [],
             companyNews: [],
         }
     }
@@ -19,6 +22,18 @@ export default class BusinessCard extends Component {
             .then(json =>{
                 this.setState({
                     company: json
+                })
+            })
+    }
+
+    loadingBusinessData = async (companyCod) => {
+        const urlApi = 'https://financialmodelingprep.com/api/v3/income-statement/' +
+        companyCod +'?limit=120&apikey=040969b1255adee69233f0ae39fcbdfe'
+        fetch(urlApi)
+            .then(res => res.json())
+            .then(json => {
+                this.setState({
+                    companyData: json
                 })
             })
     }
@@ -39,17 +54,19 @@ export default class BusinessCard extends Component {
         const companyCod = e.target.value
         this.setState({companyCod})
 
+        this.loadingBusinessData(companyCod)
         this.loadingBusinessCard(companyCod)
         this.loadingBusinessNews(companyCod)
     }
 
     componentDidMount(){
-        this.loadingBusinessCard()
-        this.loadingBusinessNews()
+        this.loadingBusinessData(this.state.companyCod)
+        this.loadingBusinessCard(this.state.companyCod)
+        this.loadingBusinessNews(this.state.companyCod)
     }
 
     render() {
-        const {company, companyNews} = this.state
+        const {company, companyData, companyNews} = this.state
 
         return (
             <div>
@@ -65,7 +82,7 @@ export default class BusinessCard extends Component {
                 {company.map(item => (
                 <div key={item.id} className="businessCard">
                     <div className="businessProfile">
-                        <img src={item.image} />
+                        <img src={item.image} alt='Logo' />
                         <ul>
                             <li>
                                 <span className="tags">Website </span> {item.website}
@@ -92,7 +109,7 @@ export default class BusinessCard extends Component {
                             {item.companyName}
                         </h1>
                         <h2>
-                            Symbol: {item.symbol} price: {item.price}
+                            Symbol: {item.symbol} Current price: {item.price}
                         </h2>
                         <p>
                             {item.description}
@@ -101,6 +118,37 @@ export default class BusinessCard extends Component {
                 </div>
                 ))}
 
+                <div className="businessNews tableNews">
+                    <div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Year</th>
+                                    <th>Equity</th>
+                                    <th>Revenue</th>
+                                    <th>EBITDA</th>
+                                    <th>Net Inc.</th>
+                                    <th>Net Mar.</th>
+                                    <th>ROE</th>
+                                    <th>Cash</th>
+                                    <th>Debt</th>
+                                    <th>N.D./EBITDA</th>
+                                    <th>DPS</th>
+                                    <th>DY</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {companyData.map(item =>(
+                                    <tr key={item.id}>
+                                        <th scope='row'> {item.calendarDate} </th>
+                                    </tr>
+                                ))}
+                            </tbody>
+                            
+                        </table>    
+                    </div>
+                </div>
+
                 {companyNews.map(item =>(
                     <div key={item.id} className="businessNews">
                         <img src={item.image} alt={item.symbol} title={item.symbol} />
@@ -108,7 +156,7 @@ export default class BusinessCard extends Component {
                             <h3> {item.title} </h3>
                             <h6> {item.site} </h6>
                             <p> {item.text} </p>
-                            <a href={item.url}> Link </a>
+                            <a href={item.url} target="_blank" rel="noreferrer"> Link </a>
                         </div>
                     </div>
                 ))}

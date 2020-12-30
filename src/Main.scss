@@ -101,3 +101,25 @@ body{
         height: auto;
     }
 }
+
+.tableNews{
+    table{
+        width: 100%;
+        border-collapse: collapse;
+        border-spacing: 0;
+    }
+
+    thead{
+        font-size: 0.8rem;
+        background: #003B70;
+        color: #ffffff;
+        min-height: 5vh;
+        text-transform: uppercase;
+    }
+
+    th, td{
+        border: 1px solid #eeeeee;
+        padding: 5px;
+        box-sizing: content-box;
+    }
+}
