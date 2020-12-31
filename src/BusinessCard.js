@@ -54,6 +54,10 @@ export default class BusinessCard extends Component {
             })
     }
 
+    formatingLetters = (string) => {
+        return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+    }
+
     formatingValues = (val) => {
         const valString = val.toString()
         if(valString.charAt(0) === '-'){
@@ -131,10 +135,10 @@ export default class BusinessCard extends Component {
                     <div className="companyTags">
                         <ul>
                             <li>
-                                <span className="tags">Headquarters: </span> {item.state} - {item.country}
+                                <span className="tags">Headquarters: </span> {this.formatingLetters(item.state)} - {item.country}
                             </li>
                             <li>
-                                <span className="tags">IPO: </span> {item.ipoDate} {item.exchangeShortName}
+                                <span className="tags">IPO: </span> {item.ipoDate} - {item.exchangeShortName}
                             </li>
                         </ul>
                         <ul>
@@ -156,7 +160,7 @@ export default class BusinessCard extends Component {
                     </div>
                     <div className="companyDesc">
                         <p>{item.description}</p>
-                        <a href={item.website}>More info: {item.website}</a>
+                        <a href={item.website} target="_blank" rel="noreferrer">More info</a>
                     </div>
                 </div>
                 ))}
@@ -188,8 +192,8 @@ export default class BusinessCard extends Component {
                                     <th> {this.formatingValues(item.revenues)} </th>
                                     <th> {this.formatingValues(item.earningsBeforeInterestTaxesDepreciationAmortization)} </th>
                                     <th> {this.formatingValues(item.netIncome)} </th>
-                                    <th> { (((item.netIncome / item.revenues) * 100) < 0) ? 'L' : (((item.netIncome / item.revenues) * 100).toString().substring(0,2) + '%')} </th>
-                                    <th> {((item.returnOnAverageEquity) < 0) ? 'L' : ((((item.returnOnAverageEquity) * 100).toString().substring(0,2)) + '%')}</th>
+                                    <th> { (((item.netIncome / item.revenues) * 100) < 0) ? 'L' : (((item.netIncome / item.revenues) * 100).toString().substring(0,3) + '%')} </th>
+                                    <th> {((item.returnOnAverageEquity) < 0) ? 'L' : ((((item.returnOnAverageEquity) * 100).toString().substring(0,3)) + '%')}</th>
                                     <th> {this.formatingValues(item.cashAndEquivalents)} </th>
                                     <th> {this.formatingValues(item.debt)} </th>
                                     <th> {((item.debt / item.earningsBeforeInterestTaxesDepreciationAmortization) < 0) ? "L" : (item.debt / item.earningsBeforeInterestTaxesDepreciationAmortization).toString().substring(0,4)} </th>
@@ -204,17 +208,19 @@ export default class BusinessCard extends Component {
                     </div>
                 </div>
 
-                {companyNews.slice(0,3).map(item =>(
-                    <div key={item.id} className="businessNews">
-                        <img src={item.image} alt={item.related} title={item.related} />
-                        <div>
-                            <h3> {item.headline} </h3>
+                <div className="companyNews">
+                    {companyNews.slice(0,3).map(item =>(
+                        <div key={item.id} className="container">
                             <h6> {item.source} </h6>
-                            <p> {item.summary} </p>
-                            <a href={item.url} target="_blank" rel="noreferrer"> Link </a>
+                            <img src={item.image} alt={item.related} title={item.related} />
+                            <div>
+                                <h2> {item.headline} </h2>
+                                <p> {item.summary} </p>
+                                <a href={item.url} target="_blank" rel="noreferrer">Read More</a>
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
             </div>
         );
     }
