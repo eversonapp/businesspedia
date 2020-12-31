@@ -5,7 +5,7 @@ export default class BusinessCard extends Component {
         super(props);
         
         this.state = {
-            companyCod: "AAPL",
+            companyCod: "TSLA",
 
             company: [],
             companyFinancials: [],
@@ -51,8 +51,20 @@ export default class BusinessCard extends Component {
     }
 
     formatingValues = (val) => {
-        if(val > 1){
-            return val + ' Billion'
+        if(val >= 1000000 && val < 1000000000){
+            return new Intl.NumberFormat().format((val).toString().slice(0,-3)) + 'M'
+        }
+        else if(val >= 1000000000 && val < 1000000000000){
+            return new Intl.NumberFormat().format((val).toString().slice(0,-6)) + 'B'
+        }
+        else if(val >= 1000000000000 && val < 1000000000000000){
+            return new Intl.NumberFormat().format((val).toString().slice(0,-9)) + 'T'
+        }
+        else if(val >= 1000000000000000){
+            return 'WOW'
+        }
+        else{
+            return val
         }
     }
 
@@ -147,16 +159,16 @@ export default class BusinessCard extends Component {
                             <tbody>
                             {companyFinancials.map(item => (
                                 <tr key={item.id}>
-                                    <th> {(item.calendarDate).toString().substring(0,7).replace('-','/')} </th>
+                                    <th> {(item.calendarDate).toString().substring(0,4).replace('-','/')} </th>
                                     <th> {this.formatingValues(item.shareholdersEquity)} </th>
-                                    <th> {item.revenues} </th>
-                                    <th> {item.earningsBeforeInterestTaxesDepreciationAmortization} </th>
-                                    <th> {item.netIncome} </th>
-                                    <th> {((item.netIncome / item.revenues) * 100).toString().substring(0,2) + '%'} </th>
-                                    <th> {(((item.returnOnAverageEquity) * 100).toString().substring(0,2)) + '%'}</th>
-                                    <th> {item.cashAndEquivalents} </th>
-                                    <th> {item.debt} </th>
-                                    <th> {(item.debt / item.earningsBeforeInterestTaxesDepreciationAmortization).toString().substring(0,3)} </th>
+                                    <th> {this.formatingValues(item.revenues)} </th>
+                                    <th> {this.formatingValues(item.earningsBeforeInterestTaxesDepreciationAmortization)} </th>
+                                    <th> {this.formatingValues(item.netIncome)} </th>
+                                    <th> { (((item.netIncome / item.revenues) * 100) < 0) ? 'L' : (((item.netIncome / item.revenues) * 100).toString().substring(0,2) + '%')} </th>
+                                    <th> {((item.returnOnAverageEquity) < 0) ? 'L' : ((((item.returnOnAverageEquity) * 100).toString().substring(0,2)) + '%')}</th>
+                                    <th> {this.formatingValues(item.cashAndEquivalents)} </th>
+                                    <th> {this.formatingValues(item.debt)} </th>
+                                    <th> {((item.debt / item.earningsBeforeInterestTaxesDepreciationAmortization) < 0) ? "L" : (item.debt / item.earningsBeforeInterestTaxesDepreciationAmortization).toString().substring(0,4)} </th>
                                     <th> {(item.dividendsPerBasicCommonShare).toString().substring(0,4)} </th>
                                     <th> {((item.dividendYield).toString().substring(0,4)) + '%'} </th>
                                 </tr>
