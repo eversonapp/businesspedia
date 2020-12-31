@@ -11,7 +11,7 @@ $Businesspedia-w: #FFFFFF;
 
 body{
     font-family: $font-stack;
-    background: $Businesspedia-g2;
+    background: #EEEEEE;
 }
 
 .navbar{
@@ -25,7 +25,7 @@ body{
 
     .container{
         width: 90%;
-        max-width: 992px;
+        max-width: 1200px;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -61,65 +61,84 @@ body{
 }
 
 .businessCard{
-    display: flex;
     background: #FFFFFF;
     border-radius: 2px;
     border: 1px solid #cccccc;
-    padding: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
 
-    .businessProfile{
-        min-width: 200px;
-
-        img{
-            min-width: 100%;
-            border-radius: 50%;
+    .company{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .companyLogo{
+            height: 150px;
+            padding: 10px;
+            img{
+                height: 100%;
+                width: 100%;
+            }
         }
-        .tags{
+        .companyName{
+            width: 100%;
+        }
+    }
+    .companyTags{
+        display: flex;
+        padding: 10px 0;
+        ul{
+            .tags{
+                font-weight: bold;
+            }
+            flex: 1;
+        }
+    }
+    .companyDesc{
+        font-size: 0.9rem;
+        a{  
             font-weight: bold;
+            color: #D9261C;
+            text-decoration: none;
         }
     }
-
-    .businessDesc{
-        padding-left: 10px;
-    }
-
+    
 }
 
-.businessNews{
-    display: flex;
+.companyFinancials{
     background: #FFFFFF;
     border-radius: 2px;
     border: 1px solid #cccccc;
-    padding: 10px;
-    margin: 5vh 0;
-    &:last-child{
-        margin: 5vh 0 0;
-    }
+    padding: 20px;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
 
-    img{
-        width: 200px;
-        height: auto;
-    }
-}
-
-.tableNews{
     table{
-        width: 100%;
         border-collapse: collapse;
         border-spacing: 0;
-    }
+        width: 100%;
 
-    thead{
-        font-size: 0.8rem;
-        background: #003B70;
-        color: #ffffff;
-        min-height: 5vh;
-        text-transform: uppercase;
-    }
+        thead{
+            background: #003B70;
+            color: #FFFFFF;
+        }
 
-    th, td{
-        border: 1px solid #eeeeee;
-        padding: 5px;
-        box-sizing: content-box;
+        th, tr{
+            border: 1px solid #eeeeee;
+            padding: 5px;
+            box-sizing: content-box;
+        }
+
+        
+        tbody{
+            tr th:first-child{
+                background: rgba(0, 59, 112, 0.1);
+                border: 1px solid #FFFFFF;
+            }
+
+            tr:hover{
+                background: #eeeeee;
+                cursor: pointer;
+            }
+        }
     }
 }

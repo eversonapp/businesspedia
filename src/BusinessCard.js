@@ -5,8 +5,7 @@ export default class BusinessCard extends Component {
         super(props);
         
         this.state = {
-            companyCod: "TSLA",
-
+            companyCod: "AMZN",
             company: [],
             companyFinancials: [],
             companyNews: [],
@@ -16,7 +15,7 @@ export default class BusinessCard extends Component {
     
     loadingBusinessCard = async (companyCod) => {
         const urlApi = 'https://financialmodelingprep.com/api/v3/profile/' +
-        companyCod +'?apikey=040969b1255adee69233f0ae39fcbdfe'
+        companyCod +'?apikey=3dd8e7d17a0f7d39c6ce46133ab2e208'
         fetch(urlApi)
             .then(res => res.json())
             .then(json =>{
@@ -39,8 +38,13 @@ export default class BusinessCard extends Component {
     }
 
     loadingBusinessNews = async (companyCod) => {
-        const urlApi = 'https://financialmodelingprep.com/api/v3/stock_news?tickers=' +
-        companyCod + '&limit=03&apikey=040969b1255adee69233f0ae39fcbdfe' 
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+        today = yyyy + '-' + mm + '-' + dd
+        const urlApi = 'https://finnhub.io/api/v1/company-news?symbol=' +
+        companyCod + '&from=' + today + '&' + today  + '&token=bu5h5fn48v6qku33rrbg' 
         fetch(urlApi)
             .then(res => res.json())
             .then(json => {
@@ -114,44 +118,50 @@ export default class BusinessCard extends Component {
 
                 {company.map(item => (
                 <div key={item.id} className="businessCard">
-                    <div className="businessProfile">
-                        <img src={item.image} alt='Logo' />
+                    <div className="company">
+                        <div className="companyLogo">
+                            <img src={item.image} alt='Logo' />
+                        </div>
+                        <div className="companyName">
+                            <h1>{item.companyName}</h1>
+                            <h2>{item.symbol}</h2>
+                            <h5>Market Cap: {(new Intl.NumberFormat().format(item.mktCap)) + '$'}</h5>
+                        </div>
+                    </div>
+                    <div className="companyTags">
                         <ul>
                             <li>
-                                <span className="tags">Website </span> {item.website}
+                                <span className="tags">Headquarters: </span> {item.state} - {item.country}
                             </li>
                             <li>
-                                <span className="tags">Market Cap: </span> {(new Intl.NumberFormat().format(item.mktCap)) + '$'}
+                                <span className="tags">IPO: </span> {item.ipoDate} {item.exchangeShortName}
+                            </li>
+                        </ul>
+                        <ul>
+                            <li>
+                                <span className="tags">Industry: </span> {item.industry}
                             </li>
                             <li>
-                                <span className="tags">Exchange: </span> {item.exchangeShortName} <span className="tags">IPO: </span> {item.ipoDate}
+                                <span className="tags">Sector: </span> {item.sector}
+                            </li>
+                        </ul>
+                        <ul>
+                            <li>
+                                <span className="tags">CEO: </span> {item.ceo}
                             </li>
                             <li>
-                                <span className="tags">Industry: </span> {item.industry} <span className="tags">Sector: </span> {item.sector}
-                            </li>
-                            <li>
-                            <span className="tags">CEO: </span> {item.ceo} <span className="tags">Employees: </span> {item.fullTimeEmployees}
-                            </li>
-                            <li>
-                                <span className="tags">Headquarters: </span> {item.city} - {item.state} - {item.country}
+                                <span className="tags">Employees: </span> {item.fullTimeEmployees}
                             </li>
                         </ul>
                     </div>
-                    <div className="businessDesc">
-                        <h1>
-                            {item.companyName}
-                        </h1>
-                        <h2>
-                            Symbol: {item.symbol} Current price: {item.price}
-                        </h2>
-                        <p>
-                            {item.description}
-                        </p>
+                    <div className="companyDesc">
+                        <p>{item.description}</p>
+                        <a href={item.website}>More info: {item.website}</a>
                     </div>
                 </div>
                 ))}
 
-                <div className="businessNews tableNews">
+                <div className="companyFinancials">
                     <div>
                         <table>
                             <thead>
@@ -194,13 +204,13 @@ export default class BusinessCard extends Component {
                     </div>
                 </div>
 
-                {companyNews.map(item =>(
+                {companyNews.slice(0,3).map(item =>(
                     <div key={item.id} className="businessNews">
-                        <img src={item.image} alt={item.symbol} title={item.symbol} />
+                        <img src={item.image} alt={item.related} title={item.related} />
                         <div>
-                            <h3> {item.title} </h3>
-                            <h6> {item.site} </h6>
-                            <p> {item.text} </p>
+                            <h3> {item.headline} </h3>
+                            <h6> {item.source} </h6>
+                            <p> {item.summary} </p>
                             <a href={item.url} target="_blank" rel="noreferrer"> Link </a>
                         </div>
                     </div>
