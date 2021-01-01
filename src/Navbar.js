@@ -9,8 +9,7 @@ export default function Navbar(){
                 </a>
                 <div id="Menu">
                     <a href="index.html">About</a>
-                    <a href="index.html">Link</a>
-                    <a href="index.html">Contact</a>
+                    <a href="https://everson.app/" target="_blank" rel="noreferrer">Contact</a>
                 </div>
             </div>
         </nav>

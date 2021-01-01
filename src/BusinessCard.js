@@ -129,7 +129,7 @@ export default class BusinessCard extends Component {
                         <div className="companyName">
                             <h1>{item.companyName}</h1>
                             <h2>{item.symbol}</h2>
-                            <h5>Market Cap: {(new Intl.NumberFormat().format(item.mktCap)) + '$'}</h5>
+                            <h5>Market Cap: {'$' + (new Intl.NumberFormat().format(item.mktCap))}</h5>
                         </div>
                     </div>
                     <div className="companyTags">
@@ -154,7 +154,7 @@ export default class BusinessCard extends Component {
                                 <span className="tags">CEO: </span> {item.ceo}
                             </li>
                             <li>
-                                <span className="tags">Employees: </span> {item.fullTimeEmployees}
+                                <span className="tags">Employees: </span> {new Intl.NumberFormat().format(item.fullTimeEmployees)}
                             </li>
                         </ul>
                     </div>
@@ -167,6 +167,7 @@ export default class BusinessCard extends Component {
 
                 <div className="companyFinancials">
                     <div>
+                        <h2>Annual Reports</h2>
                         <table>
                             <thead>
                                 <tr>
@@ -192,8 +193,8 @@ export default class BusinessCard extends Component {
                                     <th> {this.formatingValues(item.revenues)} </th>
                                     <th> {this.formatingValues(item.earningsBeforeInterestTaxesDepreciationAmortization)} </th>
                                     <th> {this.formatingValues(item.netIncome)} </th>
-                                    <th> { (((item.netIncome / item.revenues) * 100) < 0) ? 'L' : (((item.netIncome / item.revenues) * 100).toString().substring(0,3) + '%')} </th>
-                                    <th> {((item.returnOnAverageEquity) < 0) ? 'L' : ((((item.returnOnAverageEquity) * 100).toString().substring(0,3)) + '%')}</th>
+                                    <th> { (((item.netIncome / item.revenues) * 100) < 0) ? 'L' : (((item.netIncome / item.revenues) * 100).toString().substring(0,4) + '%')} </th>
+                                    <th> {((item.returnOnAverageEquity) < 0) ? 'L' : ((((item.returnOnAverageEquity) * 100).toString().substring(0,4)) + '%')}</th>
                                     <th> {this.formatingValues(item.cashAndEquivalents)} </th>
                                     <th> {this.formatingValues(item.debt)} </th>
                                     <th> {((item.debt / item.earningsBeforeInterestTaxesDepreciationAmortization) < 0) ? "L" : (item.debt / item.earningsBeforeInterestTaxesDepreciationAmortization).toString().substring(0,4)} </th>
@@ -201,9 +202,10 @@ export default class BusinessCard extends Component {
                                     <th> {((item.dividendYield).toString().substring(0,4)) + '%'} </th>
                                 </tr>
                             ))}
-                                
                             </tbody>
-                            
+                            <p>
+                                
+                            </p>
                         </table>    
                     </div>
                 </div>
@@ -211,10 +213,12 @@ export default class BusinessCard extends Component {
                 <div className="companyNews">
                     {companyNews.slice(0,3).map(item =>(
                         <div key={item.id} className="container">
-                            <h6> {item.source} </h6>
-                            <img src={item.image} alt={item.related} title={item.related} />
+                            <div className="companyNewsPic">
+                                <img src={item.image} alt={item.related} title={item.related} />
+                            </div>
                             <div>
                                 <h2> {item.headline} </h2>
+                                <h6> {item.source} </h6>
                                 <p> {item.summary} </p>
                                 <a href={item.url} target="_blank" rel="noreferrer">Read More</a>
                             </div>

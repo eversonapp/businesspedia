@@ -11,7 +11,7 @@ $Businesspedia-w: #FFFFFF;
 
 body{
     font-family: $font-stack;
-    background: #003B70;
+    background: #f9f9f9;
     color: #333333;
 }
 
@@ -21,7 +21,8 @@ body{
     position: fixed;
     display: flex;
     justify-content: center;
-    background: $Businesspedia-w;
+    background: #003B70;
+    border: 1px solid #CECECE;
 
     .container{
         width: 90%;
@@ -31,7 +32,8 @@ body{
         align-items: center;
         
         #Logo{
-            max-height: 50px;
+            max-height: 40px;
+            padding: 5px 0 0;
         }
 
         #Menu{
@@ -39,12 +41,11 @@ body{
             a{
                 display: block;
                 padding: 0 10px;
-                font-weight: bold;
                 text-decoration: none;
-                color: $Businesspedia-b;
+                color: #ffffff;
                 transition: 200ms ease-in-out;
                 &:hover{
-                    color: $Businesspedia-r;
+                    text-decoration: underline;
                 }
             }
         }
@@ -95,16 +96,35 @@ body{
     }
     .companyDesc{
         font-size: 0.9rem;
-        a{  
+
+        a{
+            color: #ffffff;
             font-weight: bold;
-            color: #D9261C;
+            background: #D9261C;
+            border: 2px solid #D9261C;
+            box-sizing: border-box;
+            display: block;
             text-decoration: none;
+            text-align: center;
+            border-radius: 2px;
+            padding: 5px;
+            margin-top: 5px;
+            transition: 200ms ease-in-out;
+            &:hover{
+                background: transparent;
+                color: #D9261C;
+            }
         }
     }
     
 }
 
 .companyFinancials{
+    text-align: center;
+
+    h2{color: #003B70;
+    }
+
     background: #FFFFFF;
     border-radius: 2px;
     border: 1px solid #cccccc;
@@ -146,25 +166,34 @@ body{
 .companyNews{
     margin-bottom: 20px;
     font-size: 0.9rem;
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    
 
     .container{
-        flex: 1;
         background: #FFFFFF;
         border-radius: 2px;
         border: 1px solid #cccccc;
         padding: 20px;
-        margin: 10px;
+        &:nth-child(2){
+            margin: 0 20px;
+        }
     }
 
-    img{
+    .companyNewsPic{
+        max-height: 150px;
+        overflow: hidden;
         border-radius: 2px;
-        width: 100%;
-        height: auto;
+
+        img{
+            width: 100%;
+            height: auto;
+        }
     }
 
     a{
         color: #ffffff;
+        font-weight: bold;
         background: #D9261C;
         border: 2px solid #D9261C;
         box-sizing: border-box;
