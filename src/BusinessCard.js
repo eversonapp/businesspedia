@@ -25,6 +25,11 @@ export default class BusinessCard extends Component {
             })
     }
 
+    loadingBusinessPrices = (companyCod) => {
+        const urlAPi = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=' +
+        companyCod + '&outputsize=full&apikey=21456MVFYRFCAMX6' 
+    }
+
     loadingBusinessFinancials = async (companyCod) => {
         const urlApi = 'https://api.polygon.io/v2/reference/financials/'
         + companyCod + '?limit=10&type=YA&sort=-calendarDate&apiKey=CS4QQvffYLSCRPZG6wGVK4A4xjEzGj_P'
@@ -138,7 +143,7 @@ export default class BusinessCard extends Component {
                                 <span className="tags">Headquarters: </span> {this.formatingLetters(item.state)} - {item.country}
                             </li>
                             <li>
-                                <span className="tags">IPO: </span> {item.ipoDate} - {item.exchangeShortName}
+                                <span className="tags">IPO: </span> {(item.ipoDate).replaceAll('-','/')} - {item.exchangeShortName}
                             </li>
                         </ul>
                         <ul>

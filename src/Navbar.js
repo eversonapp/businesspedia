@@ -1,4 +1,5 @@
 import Logo from './pics/logo.svg'
+import PriceBar from './PriceBar'
 
 export default function Navbar(){
     return(
@@ -12,6 +13,7 @@ export default function Navbar(){
                     <a href="https://everson.app/" target="_blank" rel="noreferrer">Contact</a>
                 </div>
             </div>
+            <PriceBar/>
         </nav>
     )
 }

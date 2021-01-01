@@ -4,7 +4,7 @@ import BusinessCard from "./BusinessCard";
 
 export default function App(){
     let centerContent = {display: "flex", justifyContent: "center"}
-    let mainContainer = { margin: "8vh 2vw 0", width: "100%", maxWidth: "1200px"}
+    let mainContainer = { margin: "14vh 2vw 0", width: "100%", maxWidth: "1200px"}
 
     return (
         <div style={centerContent}>

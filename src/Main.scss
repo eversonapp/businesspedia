@@ -17,9 +17,11 @@ body{
 
 .navbar{
     width: 100%;
-    max-height: 8vh;
+    min-height: 10vh;
     position: fixed;
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
     background: #003B70;
     border: 1px solid #CECECE;
@@ -52,11 +54,18 @@ body{
     }
 }
 
+.priceBar{
+    text-align: center;
+    width: 100%;
+    color: #ffffff;
+    background: #D9261C;
+}
+
 .btnSearch{
     width: 100%;
     font-size: 1.2rem;
     padding: 10px;
-    margin: 10px 0;
+    margin: 0 0 20px;
     border-radius: 2px;
     border: 1px solid #cccccc;
 }
@@ -130,7 +139,6 @@ body{
     border: 1px solid #cccccc;
     padding: 20px;
     margin-bottom: 20px;
-    font-size: 0.9rem;
 
     table{
         border-collapse: collapse;
@@ -150,6 +158,8 @@ body{
 
         
         tbody{
+            font-size: 0.85rem;
+
             tr th:first-child{
                 background: rgba(0, 59, 112, 0.1);
                 border: 1px solid #FFFFFF;
