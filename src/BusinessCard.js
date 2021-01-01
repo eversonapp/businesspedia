@@ -115,7 +115,7 @@ export default class BusinessCard extends Component {
         const {companyFinancials} = this.state
 
         return (
-            <div>
+            <div className="mainContainer">
                 <div>
                     <select className="btnSearch" value={this.state.companyCod} onChange={this.changeHandler}>
                         <option selected>Select the company</option>
@@ -215,20 +215,24 @@ export default class BusinessCard extends Component {
                     </div>
                 </div>
 
-                <div className="companyNews">
-                    {companyNews.slice(0,3).map(item =>(
-                        <div key={item.id} className="container">
-                            <div className="companyNewsPic">
+                <div className="companyNewsBox">
+                    <div>
+                        {companyNews.slice(0,3).map(item => (
+                        <a href={item.url} target="_blank" rel="noreferrer" className='companyNews'>
+                            <div className="companyNewsImg">
                                 <img src={item.image} alt={item.related} title={item.related} />
                             </div>
-                            <div>
+                            <div className="companyNewsTxt">
                                 <h2> {item.headline} </h2>
                                 <h6> {item.source} </h6>
                                 <p> {item.summary} </p>
-                                <a href={item.url} target="_blank" rel="noreferrer">Read More</a>
                             </div>
-                        </div>
-                    ))}
+                        </a>
+                        ))}
+                    </div>            
+                    <div className="companyCoins">
+                     <h1>Coins</h1>
+                    </div>
                 </div>
             </div>
         );
