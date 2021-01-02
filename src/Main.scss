@@ -5,11 +5,11 @@ $Businesspedia-g2: #EEEEEE;
 $Businesspedia-w: #FFFFFF;
 *{margin: 0; padding: 0; border: 0;}
 
-table{font-size: 0.5rem;}
 img{max-width: 300px;}
 ul{list-style: none;}
 
 body{
+    color: #333333;
     font-family: 'Open Sans', sans-serif;
     background: #EEEEEE;
 }
@@ -80,9 +80,9 @@ body{
     border: 1px solid #CECECE;
     border-radius: 2px;
     padding: 20px;
+    margin-bottom: 20px;
 
     .comapanyProfile{
-        padding: 10px;
         min-width: 30%;
 
         .comapanyLogo{
@@ -104,12 +104,102 @@ body{
     }
 
     .comapanyDesc{
+        padding-right: 20px;
         p{
             font-size: 0.9rem;
         }
     }
 }
 
+.companyFinancials{
+    background: #FFFFFF;
+    border: 1px solid #CECECE;
+    border-radius: 2px;
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    
+    .companyFInancialTable{
+        overflow-x: auto;
+    }
+
+    table{
+        border-collapse: collapse;
+        border-spacing: 0;
+        width: 100%;
+
+        thead{
+            th{
+                padding: 5px;
+                color: #FFFFFF;
+                background: #003B70;
+            }
+        }
+
+        tbody{
+            th{
+                padding: 5px;
+                font-size: 0.9rem;
+            }
+            tr{
+                border-bottom: 1px solid #CECECE;
+                &:last-child{
+                    border-bottom: 1px solid #FFFFFF;
+                }
+            }
+        }
+    }
+
+}
+
+.companyNewsCoins{
+    display: flex;
+    flex-direction: row;
+    .companyNews{
+        h2{
+            color: #D9261C;
+        }
+
+        a{  
+            color: #333333;
+            display: flex;
+            text-decoration: none;
+            margin: 0 0 20px;
+            border-bottom: 1px solid #CECECE;
+            padding-bottom: 20px;
+            &:last-child{
+                margin: 0;
+                border-bottom: 0;
+                padding-bottom: 0;
+            }
+        }
+        
+        .companyNewsImg{
+            min-width: 250px;
+            min-height: 150px;
+            overflow: hidden;
+            border-radius: 2px;
+
+            img{
+                min-width: 100%;
+                height: 100%;
+            }
+        }
+
+        .companyNewsTxt{
+            padding: 10px 10px;
+        }
+
+    }
+    .companyCoins{
+        min-width: 200px;
+        background: #FFFFFF;
+        border: 1px solid #CECECE;
+        border-radius: 2px;
+        padding: 20px;
+        margin: 0 0 0 20px;
+    }
+}
 
 
 @media only screen and (max-width: 800px){
@@ -117,4 +207,24 @@ body{
         flex-direction: column-reverse;
     }
     
+    .comapanyDesc{
+        padding-right: 0;
+    }
+
+    .companyNewsCoins{
+        display: flex;
+        flex-direction: column;
+
+        .companyNews{
+            flex-direction: column;
+
+            .companyNewsTxt{
+                padding: 10px 0;
+            }
+        }
+
+        .companyCoins{
+            margin: 20px 0 0 0;
+        }
+    }
 }

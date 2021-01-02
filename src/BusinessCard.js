@@ -48,7 +48,7 @@ export default class BusinessCard extends Component {
         var yyyy = today.getFullYear();
         today = yyyy + '-' + mm + '-' + dd
         const urlApi = 'https://finnhub.io/api/v1/company-news?symbol=' +
-        companyCod + '&from=' + today + '&' + today  + '&token=bu5h5fn48v6qku33rrbg' 
+        companyCod + '&from=' + today + '&' + today  + '&token=bvnvpmv48v6pasoe9bk0' 
         fetch(urlApi)
             .then(res => res.json())
             .then(json => {
@@ -124,35 +124,34 @@ export default class BusinessCard extends Component {
                     </select>
                 </div>
 
-                <div>
-                    {company.map(item => (
-                    <div className="company">
-                        <div  className="comapanyProfile">
-                            <div className="comapanyLogo">
-                                <img src={item.image} alt='Logo' />
-                            </div>
-                            <ul>
-                                <li><b>Symbol:</b> {item.symbol}</li>
-                                <li><b>Market Cap:</b> {'$' + (new Intl.NumberFormat().format(item.mktCap))}</li>
-                                <li><b>Headquarters:</b> {this.formatingLetters(item.state)} - {item.country}</li>
-                                <li><b>IPO:</b> {(item.ipoDate).replaceAll('-','/')} - {item.exchangeShortName}</li>
-                                <li><b>Employees:</b> {new Intl.NumberFormat().format(item.fullTimeEmployees)}</li>
-                                <li><b>Industry:</b> {item.industry}</li>
-                                <li><b>Sector:</b> {item.sector}</li>
-                                <li><b>CEO:</b> {item.ceo}</li>
-                            </ul>
+                
+                {company.map(item => (
+                <div className="company">
+                    <div  className="comapanyProfile">
+                        <div className="comapanyLogo">
+                            <img src={item.image} alt='Logo' />
                         </div>
-                        <div className="comapanyDesc">
-                            <h1>{item.companyName}</h1>
-                            <p> {item.description} </p>
-                        </div>
+                        <ul>
+                            <li><b>Symbol:</b> {item.symbol}</li>
+                            <li><b>Market Cap:</b> {'$' + (new Intl.NumberFormat().format(item.mktCap))}</li>
+                            <li><b>Headquarters:</b> {this.formatingLetters(item.state)} - {item.country}</li>
+                            <li><b>IPO:</b> {(item.ipoDate).replaceAll('-','/')} - {item.exchangeShortName}</li>
+                            <li><b>Employees:</b> {new Intl.NumberFormat().format(item.fullTimeEmployees)}</li>
+                            <li><b>Industry:</b> {item.industry}</li>
+                            <li><b>Sector:</b> {item.sector}</li>
+                            <li><b>CEO:</b> {item.ceo}</li>
+                        </ul>
                     </div>
-                    ))}
+                    <div className="comapanyDesc">
+                        <h1>{item.companyName}</h1>
+                        <p> {item.description} </p>
+                    </div>
                 </div>
+                ))}
+              
 
                 <div className="companyFinancials">
-                    <div>
-                        <h2>Annual Reports</h2>
+                    <div className="companyFInancialTable">
                         <table>
                             <thead>
                                 <tr>
@@ -188,30 +187,32 @@ export default class BusinessCard extends Component {
                                 </tr>
                             ))}
                             </tbody>
-                            <p>
-                                
-                            </p>
                         </table>    
                     </div>
                 </div>
 
-                <div className="companyNewsBox">
-                    <div>
-                        {companyNews.slice(0,3).map(item => (
-                        <a href={item.url} target="_blank" rel="noreferrer" className='companyNews'>
-                            <div className="companyNewsImg">
-                                <img src={item.image} alt={item.related} title={item.related} />
-                            </div>
-                            <div className="companyNewsTxt">
-                                <h2> {item.headline} </h2>
-                                <h6> {item.source} </h6>
-                                <p> {item.summary} </p>
-                            </div>
-                        </a>
-                        ))}
+                <div className="companyNewsCoins">
+                    <div className="companyNews">
+                    {companyNews.slice(0,3).map(item => (
+                    <a href={item.url} target="_blank" rel="noreferrer" className='companyNews'>
+                        <div className="companyNewsImg">
+                            <img src={item.image} alt={item.related} title={item.related} />
+                        </div>
+                        <div className="companyNewsTxt">
+                            <h2> {item.headline} </h2>
+                            <p> {item.summary} </p>
+                            <h6> {item.source} </h6>
+                        </div>
+                    </a>
+                    ))}
                     </div>            
                     <div className="companyCoins">
-                     <h1>Coins</h1>
+                        <div>
+                            <h1>Coins</h1>
+                            <p>
+                                csadfs
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
