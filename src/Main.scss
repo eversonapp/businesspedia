@@ -228,3 +228,17 @@ body{
         }
     }
 }
+
+.footer{
+    display: flex;
+    justify-content: center;
+    background: #FFFFFF;
+    border-top: 1px solid #CECECE;
+    margin-top: 20px;
+    .footerContainer{
+        padding: 10px 0;
+        img{
+            height: 30px;
+        }
+    }
+}
