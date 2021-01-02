@@ -1,235 +1,120 @@
-*{border: 0; padding: 0; margin: 0;}
-ul{list-style: none;}
-li{margin-bottom: 1vh;}
-
-$font-stack: 'Open Sans', sans-serif;
 $Businesspedia-b: #003B70;
 $Businesspedia-r: #D9261C;
 $Businesspedia-g1: #CECECE;
 $Businesspedia-g2: #EEEEEE;
 $Businesspedia-w: #FFFFFF;
+*{margin: 0; padding: 0; border: 0;}
+
+table{font-size: 0.5rem;}
+img{max-width: 300px;}
+ul{list-style: none;}
 
 body{
-    font-family: $font-stack;
-    background: #f9f9f9;
-    color: #333333;
-    display: flex;
-    justify-content: center;
+    font-family: 'Open Sans', sans-serif;
+    background: #EEEEEE;
 }
 
-.mainContainer{
-    margin: 12vh 2vw 0;
-    max-width: 1200px;
+.content{
+    margin: auto;
+    padding-top: 12vh;
+    width: 90vw;
+    max-width: 960px;
 }
 
 .navbar{
-    width: 100%;
-    min-height: 10vh;
+    background: #003B70;
+    color: #FFFFFF;
     position: fixed;
-    display: flex;
     top: 0;
     left: 0;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: #003B70;
-    border: 1px solid #CECECE;
-    color: #ffffff;
+    width: 100%;
+    z-index: 1;
 
-    .container{
-        width: 90%;
-        max-width: 1200px;
+    .navbarContainer{
         display: flex;
         justify-content: space-between;
         align-items: center;
-        
-        #Logo{
-            max-height: 40px;
-            padding: 5px 0 0;
+        margin: auto;
+        width: 90vw;
+        max-width: 960px;
+
+        .navbarLogo{
+            height: 8vh;
+            padding: 1vh 0;
+
+            img{
+                height: 100%;
+                width: auto;
+            }
         }
 
-        #Menu{
+        .navbarMenu{
             display: flex;
-            p{
-                padding-left:10px;
-                color: #ffffff;
-                transition: 200ms ease-in-out;
+
+            p{  
+                color: #003B70;
+                background: #FFFFFF;
+                margin: 5px;
+                padding: 5px;
+                border-radius: 2px;
             }
         }
     }
-}
-
-.priceBar{
-    text-align: center;
-    width: 100%;
-    color: #ffffff;
-    background: #D9261C;
 }
 
 .btnSearch{
-    width: 100%;
-    font-size: 1.2rem;
-    padding: 10px;
-    margin: 0 0 20px;
-    border-radius: 2px;
-    border: 1px solid #cccccc;
+    margin-bottom: 2vh;
+    select{
+        width: 100%;
+        font-size: 1.4rem;
+        padding: 10px;
+        border-radius: 2px;
+        border: 1px solid #CECECE;
+    }
 }
 
-.businessCard{
+.company{
+    display: flex;
+    flex-direction: row-reverse;
     background: #FFFFFF;
+    border: 1px solid #CECECE;
     border-radius: 2px;
-    border: 1px solid #cccccc;
     padding: 20px;
-    margin-bottom: 20px;
 
-    .company{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        .companyLogo{
-            height: 150px;
-            padding: 10px;
+    .comapanyProfile{
+        padding: 10px;
+        min-width: 30%;
+
+        .comapanyLogo{
+            display: flex;
+            justify-content: center;
+            padding: 10px 0;
+
             img{
-                height: 100%;
                 width: 100%;
+                height: 100%;
+                object-fit: contain;
+                border-radius: 2px;
             }
         }
-        .companyName{
-            width: 100%;
-        }
-    }
-    .companyTags{
-        display: flex;
-        padding: 10px 0;
-        ul{
-            .tags{
-                font-weight: bold;
-            }
-            flex: 1;
-        }
-    }
-    .companyDesc{
-        font-size: 0.9rem;
 
-        a{
-            color: #ffffff;
-            font-weight: bold;
-            background: #D9261C;
-            border: 2px solid #D9261C;
-            box-sizing: border-box;
-            display: block;
-            text-decoration: none;
-            text-align: center;
-            border-radius: 2px;
-            padding: 5px;
-            margin-top: 5px;
-            transition: 200ms ease-in-out;
-            &:hover{
-                background: transparent;
-                color: #D9261C;
-            }
+        li{
+            margin-bottom: 5px;
         }
+    }
+
+    .comapanyDesc{
+        p{
+            font-size: 0.9rem;
+        }
+    }
+}
+
+
+
+@media only screen and (max-width: 800px){
+    .company{
+        flex-direction: column-reverse;
     }
     
-}
-
-.companyFinancials{
-    text-align: center;
-    background: #FFFFFF;
-    border-radius: 2px;
-    border: 1px solid #cccccc;
-    padding: 20px;
-    margin-bottom: 20px;
-
-    h2{color: #003B70;
-    }
-
-    table{
-        border-collapse: collapse;
-        border-spacing: 0;
-        width: 100%;
-
-        thead{
-            background: #003B70;
-            color: #FFFFFF;
-        }
-
-        th, tr{
-            border: 1px solid #eeeeee;
-            padding: 5px;
-            box-sizing: content-box;
-        }
-
-        
-        tbody{
-            font-size: 0.85rem;
-
-            tr th:first-child{
-                background: rgba(0, 59, 112, 0.1);
-                border: 1px solid #FFFFFF;
-            }
-
-            tr:hover{
-                background: #eeeeee;
-                cursor: pointer;
-            }
-        }
-    }
-}
-
-.companyNewsBox{
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-
-    .companyNews{
-        display: flex;
-        margin-bottom: 20px;
-
-        h2{
-            color: #D9261C;
-        }
-    }
-    .companyNewsImg{
-        max-width: 300px;
-        min-width: 300px;
-        max-height: 200px;
-        min-height: 200px;
-        border-radius: 2px;
-        overflow: hidden;
-    }
-
-    a{
-        text-decoration: none;
-        color: #333333;
-    }
-
-    a img{
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: 600ms ease-in-out;
-    }
-
-    a:hover img{
-            width: 105%;
-            height: 105%;
-    }
-
-    .companyNewsTxt{
-        padding: 10px;
-    }
-
-    .companyCoins{
-        margin: 0 0 20px 20px;
-        background: #FFFFFF;
-        border-radius: 2px;
-        border: 1px solid #cccccc;
-        padding: 20px;
-    }
-
-}
-
-footer{
-    height: 10vh;
-    background: #D9261C;
 }

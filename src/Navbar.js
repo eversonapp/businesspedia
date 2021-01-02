@@ -9,7 +9,6 @@ class Navbar extends Component {
         }
     }
     
-
     loadingCurrency = async () => {
         fetch('https://free.currconv.com/api/v7/convert?q=EUR_USD,BRL_USD&compact=ultra&apiKey=fb6abfc5dc87c5ea1774')
             .then(res => res.json())
@@ -29,11 +28,11 @@ class Navbar extends Component {
 
         return (
             <nav className="navbar">
-                <div className="container">
-                    <a href="index.html">
-                        <img src={Logo} id="Logo" alt="BusinessPedia" />
+                <div className="navbarContainer">
+                    <a href="index.html" className="navbarLogo">
+                        <img src={Logo} alt="Businesspedia" />
                     </a>
-                    <div id="Menu">
+                    <div className="navbarMenu">
                         <p>EURO: ${new Intl.NumberFormat().format(companyCoin.EUR_USD).toString().substring(0,4)}</p>
                         <p>BRL: ${new Intl.NumberFormat().format(companyCoin.BRL_USD).toString().substring(0,4)}</p>
                     </div>

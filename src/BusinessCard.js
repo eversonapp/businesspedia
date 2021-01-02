@@ -12,7 +12,6 @@ export default class BusinessCard extends Component {
         }
     }
     
-    
     loadingBusinessCard = async (companyCod) => {
         const urlApi = 'https://financialmodelingprep.com/api/v3/profile/' +
         companyCod +'?apikey=3dd8e7d17a0f7d39c6ce46133ab2e208'
@@ -115,9 +114,9 @@ export default class BusinessCard extends Component {
         const {companyFinancials} = this.state
 
         return (
-            <div className="mainContainer">
-                <div>
-                    <select className="btnSearch" value={this.state.companyCod} onChange={this.changeHandler}>
+            <div className="content">
+                <div className="btnSearch">
+                    <select value={this.state.companyCod} onChange={this.changeHandler}>
                         <option selected>Select the company</option>
                         <option value="MSFT">Microsoft</option>
                         <option value="AAPL">Apple</option>
@@ -125,50 +124,31 @@ export default class BusinessCard extends Component {
                     </select>
                 </div>
 
-                {company.map(item => (
-                <div key={item.id} className="businessCard">
+                <div>
+                    {company.map(item => (
                     <div className="company">
-                        <div className="companyLogo">
-                            <img src={item.image} alt='Logo' />
+                        <div  className="comapanyProfile">
+                            <div className="comapanyLogo">
+                                <img src={item.image} alt='Logo' />
+                            </div>
+                            <ul>
+                                <li><b>Symbol:</b> {item.symbol}</li>
+                                <li><b>Market Cap:</b> {'$' + (new Intl.NumberFormat().format(item.mktCap))}</li>
+                                <li><b>Headquarters:</b> {this.formatingLetters(item.state)} - {item.country}</li>
+                                <li><b>IPO:</b> {(item.ipoDate).replaceAll('-','/')} - {item.exchangeShortName}</li>
+                                <li><b>Employees:</b> {new Intl.NumberFormat().format(item.fullTimeEmployees)}</li>
+                                <li><b>Industry:</b> {item.industry}</li>
+                                <li><b>Sector:</b> {item.sector}</li>
+                                <li><b>CEO:</b> {item.ceo}</li>
+                            </ul>
                         </div>
-                        <div className="companyName">
+                        <div className="comapanyDesc">
                             <h1>{item.companyName}</h1>
-                            <h2>{item.symbol}</h2>
-                            <h5>Market Cap: {'$' + (new Intl.NumberFormat().format(item.mktCap))}</h5>
+                            <p> {item.description} </p>
                         </div>
                     </div>
-                    <div className="companyTags">
-                        <ul>
-                            <li>
-                                <span className="tags">Headquarters: </span> {this.formatingLetters(item.state)} - {item.country}
-                            </li>
-                            <li>
-                                <span className="tags">IPO: </span> {(item.ipoDate).replaceAll('-','/')} - {item.exchangeShortName}
-                            </li>
-                        </ul>
-                        <ul>
-                            <li>
-                                <span className="tags">Industry: </span> {item.industry}
-                            </li>
-                            <li>
-                                <span className="tags">Sector: </span> {item.sector}
-                            </li>
-                        </ul>
-                        <ul>
-                            <li>
-                                <span className="tags">CEO: </span> {item.ceo}
-                            </li>
-                            <li>
-                                <span className="tags">Employees: </span> {new Intl.NumberFormat().format(item.fullTimeEmployees)}
-                            </li>
-                        </ul>
-                    </div>
-                    <div className="companyDesc">
-                        <p>{item.description}</p>
-                        <a href={item.website} target="_blank" rel="noreferrer">More info</a>
-                    </div>
+                    ))}
                 </div>
-                ))}
 
                 <div className="companyFinancials">
                     <div>
