@@ -1,4 +1,4 @@
-$Businesspedia-b: #003B70;
+$Businesspedia-b: #222222;
 $Businesspedia-r: #D9261C;
 $Businesspedia-g1: #CECECE;
 $Businesspedia-g2: #EEEEEE;
@@ -22,7 +22,7 @@ body{
 }
 
 .navbar{
-    background: #003B70;
+    background: #222222;
     color: #FFFFFF;
     position: fixed;
     top: 0;
@@ -52,7 +52,7 @@ body{
             display: flex;
 
             p{  
-                color: #003B70;
+                color: #222222;
                 background: #FFFFFF;
                 margin: 5px;
                 padding: 5px;
@@ -108,6 +108,13 @@ body{
         p{
             font-size: 0.9rem;
         }
+        a{
+            color: #D9261C;
+            text-decoration: none;
+            display: block;
+            margin-top: 0.3rem;
+            font-weight: bold;
+        }
     }
 }
 
@@ -132,7 +139,7 @@ body{
             th{
                 padding: 5px;
                 color: #FFFFFF;
-                background: #003B70;
+                background: #222222;
             }
         }
 

@@ -132,19 +132,21 @@ export default class BusinessCard extends Component {
                             <img src={item.image} alt='Logo' />
                         </div>
                         <ul>
-                            <li><b>Symbol:</b> {item.symbol}</li>
                             <li><b>Market Cap:</b> {'$' + (new Intl.NumberFormat().format(item.mktCap))}</li>
-                            <li><b>Headquarters:</b> {this.formatingLetters(item.state)} - {item.country}</li>
-                            <li><b>IPO:</b> {(item.ipoDate).replaceAll('-','/')} - {item.exchangeShortName}</li>
-                            <li><b>Employees:</b> {new Intl.NumberFormat().format(item.fullTimeEmployees)}</li>
+                            <li><b>IPO:</b> {(item.ipoDate).replaceAll('-','/')}</li>
                             <li><b>Industry:</b> {item.industry}</li>
                             <li><b>Sector:</b> {item.sector}</li>
                             <li><b>CEO:</b> {item.ceo}</li>
+                            <li><b>Employees:</b> {new Intl.NumberFormat().format(item.fullTimeEmployees)}</li>
+                            <li><b>Headquarters:</b> {this.formatingLetters(item.state)} - {item.country}</li>
                         </ul>
                     </div>
                     <div className="comapanyDesc">
-                        <h1>{item.companyName}</h1>
+                        <h1> {item.companyName} </h1>
+                        <h2>{item.exchangeShortName}: {item.symbol} </h2>
+                        <h3> {item.price} {item.changes} </h3>
                         <p> {item.description} </p>
+                        <a href={item.website} targe='_blank'>Official Website: {(item.website).toString().slice(0,-1).replaceAll('http://','')} </a>
                     </div>
                 </div>
                 ))}
