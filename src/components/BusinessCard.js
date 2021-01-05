@@ -62,6 +62,8 @@ export default class BusinessCard extends Component {
                             labels: dataChart,
                             datasets: [{
                                 label:'Stock Price',
+                                backgroundColor: 'rgba(66, 133, 244, 0.1)',
+                                borderColor: 'rgba(66, 133, 244, 1)',
                                 data: priceChart
                             }]
                         }
