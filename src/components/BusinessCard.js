@@ -134,7 +134,8 @@ export default class BusinessCard extends Component {
                     </select>
                 </div>
 
-                <div>
+                <div className="chartPrice">
+                    <h2>Stock Price in the last X Years</h2>
                     <Line
                         data={this.state.chartData}
                         options={{ maintainAspectRatio: true }}
