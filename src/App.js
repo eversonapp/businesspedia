@@ -1,7 +1,7 @@
 import './Main.scss'
-import Navbar from "./Navbar";
-import BusinessCard from "./BusinessCard";
-import Footer from "./Footer";
+import Navbar from "./components/Navbar";
+import BusinessCard from "./components/BusinessCard";
+import Footer from "./components/Footer";
 
 export default function App(){
     return (

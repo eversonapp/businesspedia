@@ -1,42 +1,53 @@
 import React, { Component } from 'react';
+import { Line } from 'react-chartjs-2';
 
 export default class BusinessCard extends Component {
     constructor(props) {
         super(props);
         
         this.state = {
-            companyCod: "AMZN",
+            companyCod: 'AAPL',
+
             company: [],
             companyFinancials: [],
             companyNews: [],
+            chartData:{
+                labels: ['Jan', 'Fev'],
+                datasets:[
+                  {
+                    label:'Stock Price',
+                    data:[
+                      3000,
+                      2500,
+                      0
+                    ]
+                  }
+                ]
+              }
         }
     }
     
-    loadingBusinessCard = async (companyCod) => {
+    loadingCompanyCard = async (companyCod) => {
         const urlApi = 'https://financialmodelingprep.com/api/v3/profile/' +
         companyCod +'?apikey=3dd8e7d17a0f7d39c6ce46133ab2e208'
         fetch(urlApi)
             .then(res => res.json())
-            .then(json =>{
+            .then(data =>{
                 this.setState({
-                    company: json
+                    company: data
                 })
             })
     }
 
-    loadingBusinessPrices = (companyCod) => {
-        const urlAPi = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=' +
-        companyCod + '&outputsize=full&apikey=21456MVFYRFCAMX6' 
-    }
-
     loadingBusinessFinancials = async (companyCod) => {
+        const urlApiKey = 'CS4QQvffYLSCRPZG6wGVK4A4xjEzGj_P'
         const urlApi = 'https://api.polygon.io/v2/reference/financials/'
-        + companyCod + '?limit=10&type=YA&sort=-calendarDate&apiKey=CS4QQvffYLSCRPZG6wGVK4A4xjEzGj_P'
+        + companyCod + '?limit=10&type=YA&sort=-calendarDate&apiKey=' + urlApiKey
         fetch(urlApi)
-            .then(res => res.json())
-            .then(json => (
+            .then(response => response.json())
+            .then(data => (
                 this.setState({
-                    companyFinancials: json.results
+                    companyFinancials: data.results
                 })
             ))
     }
@@ -44,7 +55,7 @@ export default class BusinessCard extends Component {
     loadingBusinessNews = async (companyCod) => {
         var today = new Date();
         var dd = String(today.getDate()).padStart(2, '0');
-        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var mm = String(today.getMonth() + 1).padStart(2, '0');
         var yyyy = today.getFullYear();
         today = yyyy + '-' + mm + '-' + dd
         const urlApi = 'https://finnhub.io/api/v1/company-news?symbol=' +
@@ -93,28 +104,27 @@ export default class BusinessCard extends Component {
             }
         }
     }
-  
-    changeHandler = (e) => {
-        const companyCod = e.target.value
-        this.setState({companyCod})
 
-        this.loadingBusinessCard(companyCod)
-        this.loadingBusinessFinancials(companyCod)
-        this.loadingBusinessNews(companyCod)
+    changeHandler = (e) => {
+    const companyCod = e.target.value
+
+    this.setState({companyCod})
+    this.loadingCompanyCard(companyCod)
+    this.loadingBusinessFinancials(companyCod)
+    this.loadingBusinessNews(companyCod)
     }
 
     componentDidMount(){
-        this.loadingBusinessCard(this.state.companyCod)
+        this.loadingCompanyCard(this.state.companyCod)
         this.loadingBusinessFinancials(this.state.companyCod)
         this.loadingBusinessNews(this.state.companyCod)
     }
 
     render() {
-        const {company, companyNews} = this.state
-        const {companyFinancials} = this.state
+        const {company, companyFinancials, companyNews} = this.state 
 
         return (
-            <div className="content">
+            <div className='content'>
                 <div className="btnSearch">
                     <select value={this.state.companyCod} onChange={this.changeHandler}>
                         <option selected>Select the company</option>
@@ -124,7 +134,13 @@ export default class BusinessCard extends Component {
                     </select>
                 </div>
 
-                
+                <div>
+                    <Line
+                        data={this.state.chartData}
+                        options={{ maintainAspectRatio: true }}
+                    /> 
+                </div>
+
                 {company.map(item => (
                 <div className="company">
                     <div  className="comapanyProfile">
@@ -146,11 +162,10 @@ export default class BusinessCard extends Component {
                         <h2>{item.exchangeShortName}: {item.symbol} </h2>
                         <h3> {item.price} {item.changes} </h3>
                         <p> {item.description} </p>
-                        <a href={item.website} targe='_blank'>Official Website: {(item.website).toString().slice(0,-1).replaceAll('http://','')} </a>
+                        <a href={item.website} targe='_blank'>{(item.website).toString().slice(0,-1).replaceAll('http://','')} </a>
                     </div>
                 </div>
                 ))}
-              
 
                 <div className="companyFinancials">
                     <div className="companyFInancialTable">
@@ -195,29 +210,30 @@ export default class BusinessCard extends Component {
 
                 <div className="companyNewsCoins">
                     <div className="companyNews">
-                    {companyNews.slice(0,3).map(item => (
-                    <a href={item.url} target="_blank" rel="noreferrer" className='companyNews'>
-                        <div className="companyNewsImg">
-                            <img src={item.image} alt={item.related} title={item.related} />
-                        </div>
-                        <div className="companyNewsTxt">
-                            <h2> {item.headline} </h2>
-                            <p> {item.summary} </p>
-                            <h6> {item.source} </h6>
-                        </div>
-                    </a>
-                    ))}
-                    </div>            
-                    <div className="companyCoins">
-                        <div>
-                            <h1>Coins</h1>
-                            <p>
-                                csadfs
-                            </p>
-                        </div>
+                        {companyNews.slice(0,3).map(item => (
+                        <a href={item.url} target="_blank" rel="noreferrer" className='companyNews'>
+                            <div className="companyNewsImg">
+                                <img src={item.image} alt={item.related} title={item.related} />
+                            </div>
+                            <div className="companyNewsTxt">
+                                <h2> {item.headline} </h2>
+                                <p> {item.summary} </p>
+                                <h6> {item.source} </h6>
+                            </div>
+                        </a>
+                        ))}
                     </div>
+
+                    <div className="companyCoins">
+                        <h1>Coins</h1>
+                        <p>
+                            Aliqua quis velit adipisicing non. Quis qui dolor dolore cillum est adipisicing ad labore id nulla do ea irure aliquip. Elit nostrud ad enim magna.
+                        </p>
+                    </div>    
                 </div>
+
             </div>
         );
     }
 }
+

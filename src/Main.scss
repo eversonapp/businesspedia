@@ -16,18 +16,14 @@ body{
 
 .content{
     margin: auto;
-    padding-top: 12vh;
     width: 90vw;
-    max-width: 960px;
+    max-width: 1140px;
+    padding: 5vh 0;
 }
 
 .navbar{
     background: #222222;
     color: #FFFFFF;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
     z-index: 1;
 
     .navbarContainer{
@@ -36,7 +32,7 @@ body{
         align-items: center;
         margin: auto;
         width: 90vw;
-        max-width: 960px;
+        max-width: 1140px;
 
         .navbarLogo{
             height: 8vh;
@@ -63,7 +59,7 @@ body{
 }
 
 .btnSearch{
-    margin-bottom: 2vh;
+    margin-bottom: 20px;
     select{
         width: 100%;
         font-size: 1.4rem;
@@ -75,7 +71,7 @@ body{
 
 .company{
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: row;
     background: #FFFFFF;
     border: 1px solid #CECECE;
     border-radius: 2px;
@@ -104,14 +100,16 @@ body{
     }
 
     .comapanyDesc{
-        padding-right: 20px;
+        padding-left: 20px;
         p{
             font-size: 0.9rem;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         a{
             color: #D9261C;
             text-decoration: none;
             display: block;
+            text-align: right;
             margin-top: 0.3rem;
             font-weight: bold;
         }
@@ -208,6 +206,18 @@ body{
     }
 }
 
+.footer{
+    display: flex;
+    justify-content: center;
+    background: #FFFFFF;
+    border-top: 1px solid #CECECE;
+    .footerContainer{
+        padding: 10px 0;
+        img{
+            height: 30px;
+        }
+    }
+}
 
 @media only screen and (max-width: 800px){
     .company{
@@ -236,16 +246,3 @@ body{
     }
 }
 
-.footer{
-    display: flex;
-    justify-content: center;
-    background: #FFFFFF;
-    border-top: 1px solid #CECECE;
-    margin-top: 20px;
-    .footerContainer{
-        padding: 10px 0;
-        img{
-            height: 30px;
-        }
-    }
-}

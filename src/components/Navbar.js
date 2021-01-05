@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Logo from './pics/logo.svg'
+import Logo from '../pics/logo.svg'
 
 class Navbar extends Component {
     constructor(props) {
