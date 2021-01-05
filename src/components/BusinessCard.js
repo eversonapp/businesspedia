@@ -150,7 +150,7 @@ export default class BusinessCard extends Component {
                 <div className="btnSearch">
                     <select value={this.state.companyCod} onChange={this.changeHandler}>
                         <option selected>Select the company</option>
-                        <option value="MSFT">Microsoft</option>
+                        <option value="BABA">Alibaba</option>
                         <option value="AAPL">Apple</option>
                         <option value="TSLA">Tesla</option>
                     </select>
@@ -158,27 +158,30 @@ export default class BusinessCard extends Component {
 
                 {company.map(item => (
                 <div className="company">
-                    <div  className="comapanyProfile">
-                        <div className="comapanyLogo">
-                            <img src={item.image} alt='Logo' />
+                    <div>
+                        <div className="companyProfile">
+                            <div className="companyLogo">
+                                <img src={item.image} alt='Logo' />
+                            </div>
+                            <div>
+                                <h1> {item.companyName} </h1>
+                                <h2> {item.price} {item.changes} </h2>
+                            </div>
                         </div>
-                        <ul>
-                            <li><b>Market Cap:</b> {'$' + (new Intl.NumberFormat().format(item.mktCap))}</li>
-                            <li><b>IPO:</b> {(item.ipoDate).replaceAll('-','/')}</li>
-                            <li><b>Industry:</b> {item.industry}</li>
-                            <li><b>Sector:</b> {item.sector}</li>
-                            <li><b>CEO:</b> {item.ceo}</li>
-                            <li><b>Employees:</b> {new Intl.NumberFormat().format(item.fullTimeEmployees)}</li>
-                            <li><b>Headquarters:</b> {this.formatingLetters(item.state)} - {item.country}</li>
-                        </ul>
+                        <p className="companyDesc"> {item.description} </p>
                     </div>
-                    <div className="comapanyDesc">
-                        <h1> {item.companyName} </h1>
-                        <h2>{item.exchangeShortName}: {item.symbol} </h2>
-                        <h3> {item.price} {item.changes} </h3>
-                        <p> {item.description} </p>
-                        <a href={item.website} targe='_blank'>{(item.website).toString().slice(0,-1).replaceAll('http://','')} </a>
-                    </div>
+                    <ul className="companySidebar">
+                        <li> <b>Cód:</b> {item.symbol} </li>
+                        <li> <b>Exchange:</b> {item.exchangeShortName}</li>
+                        <li><b>Market Cap:</b> {'$' + (new Intl.NumberFormat().format(item.mktCap))}</li>
+                        <li><b>IPO:</b> {(item.ipoDate).replaceAll('-','/')}</li>
+                        <li><b>Industry:</b> {item.industry}</li>
+                        <li><b>Sector:</b> {item.sector}</li>
+                        <li><b>CEO:</b> {item.ceo}</li>
+                        <li><b>Employees:</b> {new Intl.NumberFormat().format(item.fullTimeEmployees)}</li>
+                        <li><b>Headquarters:</b> {this.formatingLetters(item.state)} - {item.country}</li>
+                        <li><b>Website:</b> <a href={item.website} targe='_blank'>{(item.website).toString().slice(0,-1).replaceAll('http://','')} </a></li>
+                    </ul>
                 </div>
                 ))}
 
@@ -224,7 +227,7 @@ export default class BusinessCard extends Component {
                 </div>
 
                 <div className="chartPrice">
-                    <h2>Historical Price in the last 20 years</h2>
+                    <h2>Historical stock price</h2>
                     <Line data={ChartPrice} options={{ maintainAspectRatio: true }} /> 
                 </div>
 
