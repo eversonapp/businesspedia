@@ -156,11 +156,6 @@ export default class BusinessCard extends Component {
                     </select>
                 </div>
 
-                <div className="chartPrice">
-                    <h2>Historical Price in the last 20 years</h2>
-                    <Line data={ChartPrice} options={{ maintainAspectRatio: true }} /> 
-                </div>
-
                 {company.map(item => (
                 <div className="company">
                     <div  className="comapanyProfile">
@@ -226,6 +221,11 @@ export default class BusinessCard extends Component {
                             </tbody>
                         </table>    
                     </div>
+                </div>
+
+                <div className="chartPrice">
+                    <h2>Historical Price in the last 20 years</h2>
+                    <Line data={ChartPrice} options={{ maintainAspectRatio: true }} /> 
                 </div>
 
                 <div className="companyNewsCoins">
