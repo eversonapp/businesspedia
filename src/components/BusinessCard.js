@@ -11,7 +11,7 @@ export default class BusinessCard extends Component {
             company: [],
             companyFinancials: [],
             companyNews: [],
-            chartData:{}
+            ChartPrice:{}
         }
     }
     
@@ -40,22 +40,34 @@ export default class BusinessCard extends Component {
             ))
         }
         
-    loadingChartData = async () => {
+    loadingChartPrice = async (companyCod) => {
+        const pointerToThis = this;
         const urlApi = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=' +
-        'AAPL' + '&outputsize=compact&apikey=21456MVFYRFCAMX6'
+        companyCod + '&outputsize=compact&apikey=21456MVFYRFCAMX6'
+        let dataChart = [];
+        let priceChart = [];
+
         fetch(urlApi)
             .then( response => response.json())
-            .then()
+            .then(
+                function(data) {
 
-        this.setState({
-            chartData: {
-                labels: ['Jan', 'Feb'],
-                datasets: [{
-                    label:'stock Price',
-                    data: [3000, 2000, 0]
-                }]
-            }
-        })
+                    for (var key in data['Time Series (Daily)']) {
+                        dataChart.push(key);
+                        priceChart.push(data['Time Series (Daily)'][key]['4. close']);
+                      }
+
+                    pointerToThis.setState({
+                        ChartPrice: {
+                            labels: dataChart,
+                            datasets: [{
+                                label:'Stock Price',
+                                data: priceChart
+                            }]
+                        }
+                    })
+                }
+            )
     }
 
     loadingBusinessNews = async (companyCod) => {
@@ -118,17 +130,18 @@ export default class BusinessCard extends Component {
     this.loadingCompanyCard(companyCod)
     this.loadingBusinessFinancials(companyCod)
     this.loadingBusinessNews(companyCod)
+    this.loadingChartPrice(companyCod)
     }
 
     componentDidMount(){
         this.loadingCompanyCard(this.state.companyCod)
         this.loadingBusinessFinancials(this.state.companyCod)
         this.loadingBusinessNews(this.state.companyCod)
-        this.loadingChartData()
+        this.loadingChartPrice(this.state.companyCod)
     }
 
     render() {
-        const {company, companyFinancials, companyNews, chartData} = this.state 
+        const {company, companyFinancials, companyNews, ChartPrice} = this.state 
 
         return (
             <div className='content'>
@@ -143,7 +156,7 @@ export default class BusinessCard extends Component {
 
                 <div className="chartPrice">
                     <h2>Stock Price in the last X Years</h2>
-                    <Line data={chartData} options={{ maintainAspectRatio: true }} /> 
+                    <Line data={ChartPrice} options={{ maintainAspectRatio: true }} /> 
                 </div>
 
                 {company.map(item => (
