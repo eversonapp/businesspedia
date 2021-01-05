@@ -6,7 +6,7 @@ export default class BusinessCard extends Component {
         super(props);
         
         this.state = {
-            companyCod: 'AAPL',
+            companyCod: 'TSLA',
 
             company: [],
             companyFinancials: [],
@@ -30,7 +30,7 @@ export default class BusinessCard extends Component {
     loadingBusinessFinancials = async (companyCod) => {
         const urlApiKey = 'CS4QQvffYLSCRPZG6wGVK4A4xjEzGj_P'
         const urlApi = 'https://api.polygon.io/v2/reference/financials/'
-        + companyCod + '?limit=10&type=YA&sort=-calendarDate&apiKey=' + urlApiKey
+        + companyCod + '?limit=20&type=YA&sort=-calendarDate&apiKey=' + urlApiKey
         fetch(urlApi)
         .then(response => response.json())
         .then(data => (
@@ -42,8 +42,8 @@ export default class BusinessCard extends Component {
         
     loadingChartPrice = async (companyCod) => {
         const pointerToThis = this;
-        const urlApi = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=' +
-        companyCod + '&outputsize=compact&apikey=21456MVFYRFCAMX6'
+        const urlApi = 'https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY_ADJUSTED&symbol=' +
+        companyCod + '&apikey=21456MVFYRFCAMX6'
         let dataChart = [];
         let priceChart = [];
 
@@ -52,19 +52,19 @@ export default class BusinessCard extends Component {
             .then(
                 function(data) {
 
-                    for (var key in data['Time Series (Daily)']) {
-                        dataChart.push(key);
-                        priceChart.push(data['Time Series (Daily)'][key]['4. close']);
+                     for (var key in data['Monthly Adjusted Time Series']) {
+                        dataChart.push(key)
+                        priceChart.push(data['Monthly Adjusted Time Series'][key]['5. adjusted close']);
                       }
 
                     pointerToThis.setState({
                         ChartPrice: {
-                            labels: dataChart,
+                            labels: dataChart.reverse(),
                             datasets: [{
                                 label:'Stock Price',
                                 backgroundColor: 'rgba(66, 133, 244, 0.1)',
                                 borderColor: 'rgba(66, 133, 244, 1)',
-                                data: priceChart
+                                data: priceChart.reverse()
                             }]
                         }
                     })
@@ -93,37 +93,37 @@ export default class BusinessCard extends Component {
         return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
     }
 
-    formatingValues = (val) => {
-        const valString = val.toString()
-        if(valString.charAt(0) === '-'){
-            if(valString.length >= 8 && valString.length <= 10){
-                return new Intl.NumberFormat().format((val).toString().slice(0,-3)) + 'M'
-            }
-            else if(valString.length >= 11 && valString.length <= 13){
-                return new Intl.NumberFormat().format((val).toString().slice(0,-6)) + 'B'
-            }
-            else if(valString.length >= 14 && valString.length <= 16){
-                return new Intl.NumberFormat().format((val).toString().slice(0,-9)) + 'T'
-            }
-            else{
-                return val
-            }
-        }
-        else{
-            if(valString.length >= 7 && valString.length <= 9){
-                return new Intl.NumberFormat().format((val).toString().slice(0,-3)) + 'M'
-            }
-            else if(valString.length >= 10 && valString.length <= 12){
-                return new Intl.NumberFormat().format((val).toString().slice(0,-6)) + 'B'
-            }
-            else if(valString.length >= 13 && valString.length <= 15){
-                return new Intl.NumberFormat().format((val).toString().slice(0,-9)) + 'T'
-            }
-            else{
-                return val
-            }
-        }
-    }
+    // formatingValues = (val) => {
+    //     const valString = val.toString()
+    //     if(valString.charAt(0) === '-'){
+    //         if(valString.length >= 8 && valString.length <= 10){
+    //             return new Intl.NumberFormat().format((val).toString().slice(0,-3)) + 'M'
+    //         }
+    //         else if(valString.length >= 11 && valString.length <= 13){
+    //             return new Intl.NumberFormat().format((val).toString().slice(0,-6)) + 'B'
+    //         }
+    //         else if(valString.length >= 14 && valString.length <= 16){
+    //             return new Intl.NumberFormat().format((val).toString().slice(0,-9)) + 'T'
+    //         }
+    //         else{
+    //             return val
+    //         }
+    //     }
+    //     else{
+    //         if(valString.length >= 7 && valString.length <= 9){
+    //             return new Intl.NumberFormat().format((val).toString().slice(0,-3)) + 'M'
+    //         }
+    //         else if(valString.length >= 10 && valString.length <= 12){
+    //             return new Intl.NumberFormat().format((val).toString().slice(0,-6)) + 'B'
+    //         }
+    //         else if(valString.length >= 13 && valString.length <= 15){
+    //             return new Intl.NumberFormat().format((val).toString().slice(0,-9)) + 'T'
+    //         }
+    //         else{
+    //             return val
+    //         }
+    //     }
+    // }
 
     changeHandler = (e) => {
     const companyCod = e.target.value
@@ -157,7 +157,7 @@ export default class BusinessCard extends Component {
                 </div>
 
                 <div className="chartPrice">
-                    <h2>Stock Price in the last X Years</h2>
+                    <h2>Historical Price in the last 20 years</h2>
                     <Line data={ChartPrice} options={{ maintainAspectRatio: true }} /> 
                 </div>
 
@@ -210,17 +210,17 @@ export default class BusinessCard extends Component {
                             {companyFinancials.map(item => (
                                 <tr key={item.id}>
                                     <th> {(item.calendarDate).toString().substring(0,4).replace('-','/')} </th>
-                                    <th> {this.formatingValues(item.shareholdersEquity)} </th>
-                                    <th> {this.formatingValues(item.revenues)} </th>
-                                    <th> {this.formatingValues(item.earningsBeforeInterestTaxesDepreciationAmortization)} </th>
-                                    <th> {this.formatingValues(item.netIncome)} </th>
+                                    <th> {item.shareholdersEquity} </th>
+                                    <th> {item.revenues} </th>
+                                    <th> {item.earningsBeforeInterestTaxesDepreciationAmortization} </th>
+                                    <th> {item.netIncome} </th>
                                     <th> { (((item.netIncome / item.revenues) * 100) < 0) ? 'L' : (((item.netIncome / item.revenues) * 100).toString().substring(0,4) + '%')} </th>
                                     <th> {((item.returnOnAverageEquity) < 0) ? 'L' : ((((item.returnOnAverageEquity) * 100).toString().substring(0,4)) + '%')}</th>
-                                    <th> {this.formatingValues(item.cashAndEquivalents)} </th>
-                                    <th> {this.formatingValues(item.debt)} </th>
+                                    <th> {item.cashAndEquivalents} </th>
+                                    <th> {item.debt} </th>
                                     <th> {((item.debt / item.earningsBeforeInterestTaxesDepreciationAmortization) < 0) ? "L" : (item.debt / item.earningsBeforeInterestTaxesDepreciationAmortization).toString().substring(0,4)} </th>
                                     <th> {(item.dividendsPerBasicCommonShare).toString().substring(0,4)} </th>
-                                    <th> {((item.dividendYield).toString().substring(0,4)) + '%'} </th>
+                                    <th> {((item.dividendYield)) + '%'} </th>
                                 </tr>
                             ))}
                             </tbody>
