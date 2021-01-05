@@ -143,8 +143,8 @@ export default class BusinessCard extends Component {
     }
 
     render() {
-        const {company, companyFinancials, companyNews, ChartPrice} = this.state 
-
+        const {company, companyFinancials, companyNews, ChartPrice} = this.state
+  
         return (
             <div className='content'>
                 <div className="btnSearch">
