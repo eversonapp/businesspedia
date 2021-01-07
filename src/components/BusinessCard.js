@@ -18,7 +18,7 @@ export default class BusinessCard extends Component {
     
     loadingCompanyCard = async (companyCod) => {
         const urlApi = 'https://financialmodelingprep.com/api/v3/profile/' +
-        companyCod +'?apikey=3dd8e7d17a0f7d39c6ce46133ab2e208'
+        companyCod +'?apikey=6332aa781eacc2ac3c9936251c977497'
         fetch(urlApi)
             .then(res => res.json())
             .then(data =>{
@@ -91,7 +91,7 @@ export default class BusinessCard extends Component {
     }
 
     loadingIndexPrices = async () => {
-        fetch('https://financialmodelingprep.com/api/v3/quote/%5EDJI,%5EIXIC,^GSPC,^BVSP,^N100,^N225?apikey=3dd8e7d17a0f7d39c6ce46133ab2e208')
+        fetch('https://financialmodelingprep.com/api/v3/quote/%5EDJI,%5EIXIC,^GSPC,^BVSP,^N100,^N225?apikey=6332aa781eacc2ac3c9936251c977497')
         .then(res => res.json())
         .then(data => {
             this.setState({
@@ -104,37 +104,42 @@ export default class BusinessCard extends Component {
         return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
     }
 
-    // formatingValues = (val) => {
-    //     const valString = val.toString()
-    //     if(valString.charAt(0) === '-'){
-    //         if(valString.length >= 8 && valString.length <= 10){
-    //             return new Intl.NumberFormat().format((val).toString().slice(0,-3)) + 'M'
-    //         }
-    //         else if(valString.length >= 11 && valString.length <= 13){
-    //             return new Intl.NumberFormat().format((val).toString().slice(0,-6)) + 'B'
-    //         }
-    //         else if(valString.length >= 14 && valString.length <= 16){
-    //             return new Intl.NumberFormat().format((val).toString().slice(0,-9)) + 'T'
-    //         }
-    //         else{
-    //             return val
-    //         }
-    //     }
-    //     else{
-    //         if(valString.length >= 7 && valString.length <= 9){
-    //             return new Intl.NumberFormat().format((val).toString().slice(0,-3)) + 'M'
-    //         }
-    //         else if(valString.length >= 10 && valString.length <= 12){
-    //             return new Intl.NumberFormat().format((val).toString().slice(0,-6)) + 'B'
-    //         }
-    //         else if(valString.length >= 13 && valString.length <= 15){
-    //             return new Intl.NumberFormat().format((val).toString().slice(0,-9)) + 'T'
-    //         }
-    //         else{
-    //             return val
-    //         }
-    //     }
-    // }
+    formatingValues = (val) => {
+        if(val === undefined || val === null || val === ''){
+            return '' 
+        }
+        else{
+            const valString = val.toString()
+            if(valString.charAt(0) === '-'){
+                if(valString.length >= 8 && valString.length <= 10){
+                    return new Intl.NumberFormat().format((val).toString().slice(0,-3)) + 'M'
+                }
+                else if(valString.length >= 11 && valString.length <= 13){
+                    return new Intl.NumberFormat().format((val).toString().slice(0,-6)) + 'B'
+                }
+                else if(valString.length >= 14 && valString.length <= 16){
+                    return new Intl.NumberFormat().format((val).toString().slice(0,-9)) + 'T'
+                }
+                else{
+                    return val
+                }
+            }
+            else{
+                if(valString.length >= 7 && valString.length <= 9){
+                    return new Intl.NumberFormat().format((val).toString().slice(0,-3)) + 'M'
+                }
+                else if(valString.length >= 10 && valString.length <= 12){
+                    return new Intl.NumberFormat().format((val).toString().slice(0,-6)) + 'B'
+                }
+                else if(valString.length >= 13 && valString.length <= 15){
+                    return new Intl.NumberFormat().format((val).toString().slice(0,-9)) + 'T'
+                }
+                else{
+                    return val
+                }
+            }
+        }
+    }
 
     changeHandler = (e) => {
     const companyCod = e.target.value
@@ -220,17 +225,17 @@ export default class BusinessCard extends Component {
                             {companyFinancials.map(item => (
                                 <tr key={item.id}>
                                     <th> {(item.calendarDate).toString().substring(0,4).replace('-','/')} </th>
-                                    <th> {item.shareholdersEquity} </th>
-                                    <th> {item.revenues} </th>
-                                    <th> {item.earningsBeforeInterestTaxesDepreciationAmortization} </th>
-                                    <th> {item.netIncome} </th>
-                                    <th> { (((item.netIncome / item.revenues) * 100) < 0) ? 'L' : (((item.netIncome / item.revenues) * 100).toString().substring(0,4) + '%')} </th>
-                                    <th> {((item.returnOnAverageEquity) < 0) ? 'L' : ((((item.returnOnAverageEquity) * 100).toString().substring(0,4)) + '%')}</th>
-                                    <th> {item.cashAndEquivalents} </th>
-                                    <th> {item.debt} </th>
+                                    <th> {this.formatingValues(item.shareholdersEquity)} </th>
+                                    <th> {this.formatingValues(item.revenues)} </th>
+                                    <th> {this.formatingValues(item.earningsBeforeInterestTaxesDepreciationAmortization)} </th>
+                                    <th> {this.formatingValues(item.netIncome)} </th>
+                                    <th> {(((item.netIncome / item.revenues) * 100) < 0) ? 'L' : (Math.round((item.netIncome / item.revenues) * 100) + '%')} </th>
+                                    <th> {(item.returnOnAverageEquity === undefined) ? '' : (Math.round(item.returnOnAverageEquity * 100) + '%')}</th>
+                                    <th> {this.formatingValues(item.cashAndEquivalents)} </th>
+                                    <th> {this.formatingValues(item.debt)} </th>
                                     <th> {((item.debt / item.earningsBeforeInterestTaxesDepreciationAmortization) < 0) ? "L" : (item.debt / item.earningsBeforeInterestTaxesDepreciationAmortization).toString().substring(0,4)} </th>
-                                    <th> {(item.dividendsPerBasicCommonShare).toString().substring(0,4)} </th>
-                                    <th> {((item.dividendYield)) + '%'} </th>
+                                    <th> {(item.dividendsPerBasicCommonShare === undefined) ? '' : item.dividendsPerBasicCommonShare.toString().substring(0,4)} </th>
+                                    <th> {(item.dividendYield === undefined) ? '' : Math.round(item.dividendYield) + '%'} </th>
                                 </tr>
                             ))}
                             </tbody>

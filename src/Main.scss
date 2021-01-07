@@ -18,7 +18,7 @@ body{
     margin: auto;
     width: 90vw;
     max-width: 1140px;
-    padding: 5vh 0;
+    padding: 20px 0;
 }
 
 .navbar{
@@ -37,22 +37,34 @@ body{
         .navbarLogo{
             height: 8vh;
             padding: 1vh 0;
+            display: flex;
+            align-items: center;
+            font-size: 2rem;
+            text-decoration: none;
 
             img{
                 height: 100%;
                 width: auto;
             }
+            &::after{
+                content: 'BUSINESSPEDIA';
+                color: #ffffff;
+                margin-left: 10px;
+            }
         }
 
         .navbarMenu{
             display: flex;
-
-            p{  
-                color: #222222;
-                background: #FFFFFF;
-                margin: 5px;
-                padding: 5px;
-                border-radius: 2px;
+            color: #FFFFFF;
+            background: #0F9D58;
+            padding: 10px;
+            border-radius: 2px;
+            text-align: center;
+            font-weight: bold;
+            transition: 200ms ease-in-out;
+            cursor: pointer;
+            &:hover{
+                background: #0c7e47;
             }
         }
     }
@@ -66,6 +78,7 @@ body{
         padding: 10px;
         border-radius: 2px;
         border: 1px solid #CECECE;
+        box-sizing: border-box;
     }
 }
 
@@ -94,6 +107,7 @@ body{
         display: flex;
         align-items: center;
         min-height: 50px;
+        margin-bottom: 10px;
         .companyLogo{
             padding: 0 10px 10px 0;
             height: 80px;
@@ -146,6 +160,7 @@ body{
                 padding: 5px;
                 color: #FFFFFF;
                 background: #222222;
+                border-bottom: 1px solid #FFFFFF;
             }
         }
 
@@ -259,6 +274,16 @@ body{
 }
 
 @media only screen and (max-width: 800px){
+    .navbar{
+        .navbarContainer{
+            .navbarLogo{
+                &::after{
+                    content: 'BSPEDIA';
+                }
+            }           
+        }
+    }
+    
     .company{
         flex-direction: column;
 

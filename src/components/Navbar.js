@@ -33,8 +33,7 @@ class Navbar extends Component {
                         <img src={Logo} alt="Businesspedia" />
                     </a>
                     <div className="navbarMenu">
-                        <p>EURO: ${new Intl.NumberFormat().format(companyCoin.EUR_USD).toString().substring(0,4)}</p>
-                        <p>BRL: ${new Intl.NumberFormat().format(companyCoin.BRL_USD).toString().substring(0,4)}</p>
+                        <p>BRL/USD: ${new Intl.NumberFormat().format(companyCoin.BRL_USD).toString().substring(0,4)}</p>
                     </div>
                 </div>
             </nav>
