@@ -47,6 +47,7 @@ body{
                 width: auto;
             }
             &::after{
+                font-weight: lighter;
                 content: 'BUSINESSPEDIA';
                 color: #ffffff;
                 margin-left: 10px;
@@ -126,6 +127,9 @@ body{
     }
 
     .companySidebar{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
         min-width: 20vw;
         margin-left: 20px;
         padding-left: 20px;
@@ -148,6 +152,7 @@ body{
     
     .companyFInancialTable{
         overflow-x: auto;
+        border-radius: 2px;
     }
 
     table{
@@ -167,7 +172,7 @@ body{
         tbody{
             th{
                 padding: 5px;
-                font-size: 0.9rem;
+                font-size: 0.8rem;
                 &:first-child{
                     color: #ffffff;
                     background: rgba(66, 133, 244, 1);
@@ -175,15 +180,13 @@ body{
                 }
             }
             tr{
-                border-bottom: 1px solid #EEEEEE;
-                
                 &:hover{
                     background: rgba(66, 133, 244, 0.2);
-                    border-bottom: 1px solid #ffffff;
                     cursor: pointer;
                 }
-                &:last-child{
-                    border-bottom: 1px solid transparent;
+                th{
+                    border: 1px solid #EEEEEE;
+                    box-sizing: content-box;
                 }
             }
         }
@@ -278,7 +281,7 @@ body{
         .navbarContainer{
             .navbarLogo{
                 &::after{
-                    content: 'BSPEDIA';
+                    content: 'BSNPEDIA';
                 }
             }           
         }

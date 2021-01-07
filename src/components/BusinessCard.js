@@ -211,13 +211,12 @@ export default class BusinessCard extends Component {
                                     <th>Equity</th>
                                     <th>Revenue</th>
                                     <th>EBITDA</th>
-                                    <th>Net Inc.</th>
-                                    <th>Net Mar.</th>
+                                    <th>Net Income</th>
+                                    <th>Net Margin</th>
                                     <th>ROE</th>
                                     <th>Cash</th>
                                     <th>Debt</th>
-                                    <th>N.D./EBITDA</th>
-                                    <th>DPS</th>
+                                    <th title='Dividend per Share'>DPS</th>
                                     <th>DY</th>
                                 </tr>
                             </thead>
@@ -229,11 +228,10 @@ export default class BusinessCard extends Component {
                                     <th> {this.formatingValues(item.revenues)} </th>
                                     <th> {this.formatingValues(item.earningsBeforeInterestTaxesDepreciationAmortization)} </th>
                                     <th> {this.formatingValues(item.netIncome)} </th>
-                                    <th> {(((item.netIncome / item.revenues) * 100) < 0) ? 'L' : (Math.round((item.netIncome / item.revenues) * 100) + '%')} </th>
-                                    <th> {(item.returnOnAverageEquity === undefined) ? '' : (Math.round(item.returnOnAverageEquity * 100) + '%')}</th>
+                                    <th> {(((item.netIncome / item.revenues) * 100) < 0) ? 'LOSS' : (Math.round((item.netIncome / item.revenues) * 100) + '%')} </th>
+                                    <th> {(item.returnOnAverageEquity === undefined) ? '' : ((item.returnOnAverageEquity < 0) ? 'LOSS' : Math.round(item.returnOnAverageEquity * 100) + '%')}</th>
                                     <th> {this.formatingValues(item.cashAndEquivalents)} </th>
                                     <th> {this.formatingValues(item.debt)} </th>
-                                    <th> {((item.debt / item.earningsBeforeInterestTaxesDepreciationAmortization) < 0) ? "L" : (item.debt / item.earningsBeforeInterestTaxesDepreciationAmortization).toString().substring(0,4)} </th>
                                     <th> {(item.dividendsPerBasicCommonShare === undefined) ? '' : item.dividendsPerBasicCommonShare.toString().substring(0,4)} </th>
                                     <th> {(item.dividendYield === undefined) ? '' : Math.round(item.dividendYield) + '%'} </th>
                                 </tr>
@@ -241,7 +239,6 @@ export default class BusinessCard extends Component {
                             </tbody>
                         </table>    
                     </div>
-                    Text
                 </div>
 
                 <div className="chartPrice">
@@ -253,7 +250,7 @@ export default class BusinessCard extends Component {
                                 xAxes: [
                                     {
                                         ticks: {
-                                            display: false
+                                            fontSize: 10
                                         }
                                     }
                                 ]
