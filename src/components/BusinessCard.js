@@ -11,7 +11,8 @@ export default class BusinessCard extends Component {
             company: [],
             companyFinancials: [],
             companyNews: [],
-            ChartPrice:{}
+            ChartPrice:{},
+            IndexsPrices: []
         }
     }
     
@@ -89,6 +90,16 @@ export default class BusinessCard extends Component {
             })
     }
 
+    loadingIndexPrices = async () => {
+        fetch('https://financialmodelingprep.com/api/v3/quote/%5EDJI,%5EIXIC,^GSPC,^BVSP,^N100,^N225?apikey=3dd8e7d17a0f7d39c6ce46133ab2e208')
+        .then(res => res.json())
+        .then(data => {
+            this.setState({
+                IndexsPrices: data.reverse()
+            })
+        })
+    }
+
     formatingLetters = (string) => {
         return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
     }
@@ -140,10 +151,11 @@ export default class BusinessCard extends Component {
         this.loadingBusinessFinancials(this.state.companyCod)
         this.loadingBusinessNews(this.state.companyCod)
         this.loadingChartPrice(this.state.companyCod)
+        this.loadingIndexPrices()
     }
 
     render() {
-        const {company, companyFinancials, companyNews, ChartPrice} = this.state
+        const {company, companyFinancials, companyNews, ChartPrice, IndexsPrices} = this.state
   
         return (
             <div className='content'>
@@ -247,12 +259,22 @@ export default class BusinessCard extends Component {
                         ))}
                     </div>
 
-                    <div className="companyCoins">
-                        <h1>Coins</h1>
-                        <p>
-                            Aliqua quis velit adipisicing non. Quis qui dolor dolore cillum est adipisicing ad labore id nulla do ea irure aliquip. Elit nostrud ad enim magna.
-                        </p>
-                    </div>    
+                    <div className="indexPrices">
+                        {IndexsPrices.map(item => (
+                            <ul>
+                                <li> 
+                                    <h3> {item.name} </h3> 
+                                </li>
+                                <li>
+                                    <span className="indexPricesPrice"> {new Intl.NumberFormat().format(item.price)} </span>
+                                </li>
+                                <li>
+                                    <span className="indexPricesChanges">{item.change} </span>
+                                    <span className="indexPricesPercentage">(%{item.changesPercentage}) </span>
+                                </li>
+                            </ul>
+                        ))}
+                    </div>
                 </div>
 
             </div>

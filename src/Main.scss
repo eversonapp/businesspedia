@@ -105,6 +105,9 @@ body{
 
     .companySidebar{
         min-width: 20vw;
+        li{
+            line-height: 1.5rem;
+        }
     }
 
 }
@@ -197,13 +200,25 @@ body{
         }
 
     }
-    .companyCoins{
-        min-width: 200px;
+    .indexPrices{
+        min-width: 280px;
         background: #FFFFFF;
         border: 1px solid #CECECE;
         border-radius: 2px;
         padding: 20px;
         margin: 0 0 0 20px;
+        ul{
+            margin-bottom: 20px;
+            display: block;
+            li{
+                background: #FFFFFF;
+                
+                .indexPricesPrice{
+                    font-size: 2rem;
+                    font-weight: bold;
+                }    
+            }
+        }
     }
 }
 
@@ -241,7 +256,7 @@ body{
             }
         }
 
-        .companyCoins{
+        .indexPrices{
             margin: 20px 0 0 0;
         }
     }
