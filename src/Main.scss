@@ -1,7 +1,7 @@
 $Businesspedia-b: #222222;
-$Businesspedia-r: #DB4437;
-$Businesspedia-g1: #CECECE;
-$Businesspedia-g2: #EEEEEE;
+$Businesspedia-r: #4285F4;
+$Businesspedia-g1: #DB4437;
+$Businesspedia-g2: #0F9D58;
 $Businesspedia-w: #FFFFFF;
 *{margin: 0; padding: 0; border: 0;}
 
@@ -71,12 +71,20 @@ body{
 
 .company{
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: row;
     background: #FFFFFF;
     border: 1px solid #CECECE;
     border-radius: 2px;
     padding: 20px;
     margin-bottom: 20px;
+
+    h3{
+        color: #777777;
+    }
+
+    .stockPrice{
+        color: #4285F4;
+    }
 
     a{
         color: #DB4437;
@@ -105,8 +113,12 @@ body{
 
     .companySidebar{
         min-width: 20vw;
+        margin-left: 20px;
+        padding-left: 20px;
+        border-left: 1px solid #CECECE;
         li{
-            line-height: 1.5rem;
+            line-height: 1.6rem;
+            padding: 2px 0;
         }
     }
 
@@ -141,11 +153,22 @@ body{
             th{
                 padding: 5px;
                 font-size: 0.9rem;
+                &:first-child{
+                    color: #ffffff;
+                    background: rgba(66, 133, 244, 1);
+                    border-bottom: 1px solid #EEEEEE;
+                }
             }
             tr{
-                border-bottom: 1px solid #CECECE;
+                border-bottom: 1px solid #EEEEEE;
+                
+                &:hover{
+                    background: rgba(66, 133, 244, 0.2);
+                    border-bottom: 1px solid #ffffff;
+                    cursor: pointer;
+                }
                 &:last-child{
-                    border-bottom: 1px solid #FFFFFF;
+                    border-bottom: 1px solid transparent;
                 }
             }
         }
@@ -238,11 +261,23 @@ body{
 @media only screen and (max-width: 800px){
     .company{
         flex-direction: column;
+
+        .comapanyDesc{
+            padding-right: 0;
+        }
+
+        .companySidebar{
+            margin-top: 20px;
+            min-width: 0;
+            margin-left: 0;
+            padding-left: 0;
+            border-left: 1px solid transparent;
+            li{
+                line-height: 1.6rem;
+            }
+        }
     }
     
-    .comapanyDesc{
-        padding-right: 0;
-    }
 
     .companyNewsCoins{
         display: flex;

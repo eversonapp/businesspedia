@@ -80,7 +80,7 @@ export default class BusinessCard extends Component {
         var yyyy = today.getFullYear();
         today = yyyy + '-' + mm + '-' + dd
         const urlApi = 'https://finnhub.io/api/v1/company-news?symbol=' +
-        companyCod + '&from=' + today + '&' + today  + '&token=bvnvpmv48v6pasoe9bk0' 
+        companyCod + '&from=' + today + '&' + today  + '&token=bvr7mfv48v6uo6j2a260' 
         fetch(urlApi)
             .then(res => res.json())
             .then(json => {
@@ -177,27 +177,27 @@ export default class BusinessCard extends Component {
                             </div>
                             <div>
                                 <h1> {item.companyName} </h1>
-                                <h2> {item.price} {item.changes} </h2>
+                                <h3>Stock price: <span className='stockPrice'> {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(item.price)} </span> </h3>
                             </div>
                         </div>
                         <p className="companyDesc"> {item.description} </p>
                     </div>
                     <ul className="companySidebar">
-                        <li> <b>Cód:</b> {item.symbol} </li>
-                        <li> <b>Exchange:</b> {item.exchangeShortName}</li>
-                        <li><b>Market Cap:</b> {'$' + (new Intl.NumberFormat().format(item.mktCap))}</li>
+                        <li> <b>{item.exchangeShortName}: </b>{item.symbol}</li>
                         <li><b>IPO:</b> {(item.ipoDate).replaceAll('-','/')}</li>
+                        <li><b>Market Cap:</b> {'$' + (new Intl.NumberFormat().format(item.mktCap))}</li>
                         <li><b>Industry:</b> {item.industry}</li>
                         <li><b>Sector:</b> {item.sector}</li>
                         <li><b>CEO:</b> {item.ceo}</li>
                         <li><b>Employees:</b> {new Intl.NumberFormat().format(item.fullTimeEmployees)}</li>
                         <li><b>Headquarters:</b> {this.formatingLetters(item.state)} - {item.country}</li>
-                        <li><b>Website:</b> <a href={item.website} targe='_blank'>{(item.website).toString().slice(0,-1).replaceAll('http://','')} </a></li>
+                        <li><b>Website:</b> <a href={item.website} targe='_blank'>{(item.website).toString().slice(0,-1).replaceAll('http://','').replaceAll('https://','').replaceAll('www.','')} </a></li>
                     </ul>
                 </div>
                 ))}
 
                 <div className="companyFinancials">
+                        <h2>Annual Reports</h2>
                     <div className="companyFInancialTable">
                         <table>
                             <thead>
@@ -236,11 +236,26 @@ export default class BusinessCard extends Component {
                             </tbody>
                         </table>    
                     </div>
+                    Text
                 </div>
 
                 <div className="chartPrice">
-                    <h2>Historical stock price</h2>
-                    <Line data={ChartPrice} options={{ maintainAspectRatio: true }} /> 
+                    <h2>Historical Stock Price</h2>
+                    <Line
+                        data={ChartPrice}
+                        options={
+                            { scales: {
+                                xAxes: [
+                                    {
+                                        ticks: {
+                                            display: false
+                                        }
+                                    }
+                                ]
+                            }}
+                            }
+
+                         /> 
                 </div>
 
                 <div className="companyNewsCoins">
