@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Line } from 'react-chartjs-2';
+import './Apis'
+import { apiAlphaVantage, apiFinnhub, apiFmp, apiPolygon } from './Apis';
 
 export default class BusinessCard extends Component {
     constructor(props) {
@@ -18,7 +20,7 @@ export default class BusinessCard extends Component {
     
     loadingCompanyCard = async (companyCod) => {
         const urlApi = 'https://financialmodelingprep.com/api/v3/profile/' +
-        companyCod +'?apikey=6332aa781eacc2ac3c9936251c977497'
+        companyCod +'?apikey=' + apiFmp
         fetch(urlApi)
             .then(res => res.json())
             .then(data =>{
@@ -29,9 +31,8 @@ export default class BusinessCard extends Component {
     }
 
     loadingBusinessFinancials = async (companyCod) => {
-        const urlApiKey = 'CS4QQvffYLSCRPZG6wGVK4A4xjEzGj_P'
         const urlApi = 'https://api.polygon.io/v2/reference/financials/'
-        + companyCod + '?limit=20&type=YA&sort=-calendarDate&apiKey=' + urlApiKey
+        + companyCod + '?limit=20&type=YA&sort=-calendarDate&apiKey=' + apiPolygon 
         fetch(urlApi)
         .then(response => response.json())
         .then(data => (
@@ -44,7 +45,7 @@ export default class BusinessCard extends Component {
     loadingChartPrice = async (companyCod) => {
         const pointerToThis = this;
         const urlApi = 'https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY_ADJUSTED&symbol=' +
-        companyCod + '&apikey=21456MVFYRFCAMX6'
+        companyCod + '&apikey=' + apiAlphaVantage
         let dataChart = [];
         let priceChart = [];
 
@@ -80,7 +81,7 @@ export default class BusinessCard extends Component {
         var yyyy = today.getFullYear();
         today = yyyy + '-' + mm + '-' + dd
         const urlApi = 'https://finnhub.io/api/v1/company-news?symbol=' +
-        companyCod + '&from=' + today + '&' + today  + '&token=bvr7mfv48v6uo6j2a260' 
+        companyCod + '&from=' + today + '&' + today  + '&token=' + apiFinnhub 
         fetch(urlApi)
             .then(res => res.json())
             .then(json => {
@@ -91,7 +92,8 @@ export default class BusinessCard extends Component {
     }
 
     loadingIndexPrices = async () => {
-        fetch('https://financialmodelingprep.com/api/v3/quote/%5EDJI,%5EIXIC,^GSPC,^BVSP,^N100,^N225?apikey=6332aa781eacc2ac3c9936251c977497')
+        const urlApi  = 'https://financialmodelingprep.com/api/v3/quote/%5EDJI,%5EIXIC,^GSPC,^BVSP,^N100,^N225?apikey=' + apiFmp
+        fetch(urlApi)
         .then(res => res.json())
         .then(data => {
             this.setState({
@@ -166,9 +168,9 @@ export default class BusinessCard extends Component {
             <div className='content'>
                 <div className="btnSearch">
                     <select value={this.state.companyCod} onChange={this.changeHandler}>
-                        <option selected>Select the company</option>
+                        <option value="AAPL" selected>Select the company</option>
                         <option value="BABA">Alibaba</option>
-                        <option value="AAPL">Apple</option>
+                        <option value="AMZN">Amazon</option>
                         <option value="TSLA">Tesla</option>
                     </select>
                 </div>
@@ -250,7 +252,7 @@ export default class BusinessCard extends Component {
                                 xAxes: [
                                     {
                                         ticks: {
-                                            fontSize: 10
+                                            fontSize: 10,
                                         }
                                     }
                                 ]
