@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Line } from 'react-chartjs-2';
-import './Apis'
-import { apiAlphaVantage, apiFinnhub, apiFmp, apiPolygon } from './Apis';
+import { apiAlphaVantage, apiFinnhub, apiFmp, apiPolygon } from './Api';
 
 export default class BusinessCard extends Component {
     constructor(props) {
