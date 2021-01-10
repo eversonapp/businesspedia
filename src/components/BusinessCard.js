@@ -13,7 +13,8 @@ export default class BusinessCard extends Component {
             companyFinancials: [],
             companyNews: [],
             ChartPrice:{},
-            IndexsPrices: []
+            IndexsPrices: [],
+            companyReco: []
         }
     }
     
@@ -101,6 +102,17 @@ export default class BusinessCard extends Component {
         })
     }
 
+    loadingRecommendation = async (companyCod) => {
+        const urlApi = 'https://finnhub.io/api/v1/stock/recommendation?symbol=' + companyCod + '&token=' + apiFinnhub 
+        fetch(urlApi)    
+            .then(res => res.json())
+            .then(data => {
+                this.setState({
+                    companyReco: data
+                })
+            })
+    }        
+
     formatingLetters = (string) => {
         return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
     }
@@ -158,10 +170,11 @@ export default class BusinessCard extends Component {
         this.loadingBusinessNews(this.state.companyCod)
         this.loadingChartPrice(this.state.companyCod)
         this.loadingIndexPrices()
+        this.loadingRecommendation(this.state.companyCod)
     }
 
     render() {
-        const {company, companyFinancials, companyNews, ChartPrice, IndexsPrices} = this.state
+        const {company, companyFinancials, companyNews, ChartPrice, IndexsPrices, companyReco} = this.state
   
         return (
             <div className='content'>
@@ -290,6 +303,18 @@ export default class BusinessCard extends Component {
                                     <span className="indexPricesChanges">{item.change} </span>
                                     <span className="indexPricesPercentage">(%{item.changesPercentage}) </span>
                                 </li>
+                            </ul>
+                        ))}
+                        <h2>Recommendations</h2>
+                        {companyReco.map(item => (
+                            <ul key={item.id}>
+                                <li>Symbol: {item.symbol} </li>
+                                <li>Period: {item.period} </li>
+                                <li>Strong Buy: {item.strongBuy} </li>
+                                <li>Buy: {item.buy} </li>
+                                <li>Hold: {item.hold} </li>
+                                <li>Sell: {item.sell} </li>
+                                <li>Strong Sell: {item.strongSell} </li>
                             </ul>
                         ))}
                     </div>
