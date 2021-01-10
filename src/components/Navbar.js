@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import Logo from '../pics/logo.svg'
+import {apiFmp} from './Api'
 
 class Navbar extends Component {
     constructor(props) {
         super(props);
         this.state = {
             companyCoin: [],
+            IndexsPrices: [],
         }
     }
     
@@ -19,12 +21,24 @@ class Navbar extends Component {
             })
     }
 
+    loadingIndexPrices = async () => {
+        const urlApi  = 'https://financialmodelingprep.com/api/v3/quote/%5EDJI,%5EIXIC,^GSPC?apikey=' + apiFmp
+        fetch(urlApi)
+        .then(res => res.json())
+        .then(data => {
+            this.setState({
+                IndexsPrices: data.reverse()
+            })
+        })
+    }
+
     componentDidMount(){
         this.loadingCurrency()
+        this.loadingIndexPrices()
     }
 
     render() {
-        const {companyCoin} = this.state
+        const {companyCoin, IndexsPrices} = this.state
 
         return (
             <nav className="navbar">
@@ -34,6 +48,24 @@ class Navbar extends Component {
                     </a>
                     <div className="navbarMenu">
                         <p>BRL/USD: ${new Intl.NumberFormat().format(companyCoin.BRL_USD).toString().substring(0,4)}</p>
+                    </div>
+                </div>
+                <div className="indexPrices">
+                    <div>
+                        {IndexsPrices.map(item => (
+                            <ul>
+                                <li> 
+                                    {item.name} 
+                                </li>
+                                <li>
+                                    {new Intl.NumberFormat().format(item.price)}
+                                </li>
+                                <li>
+                                {item.change}
+                                    (%{item.changesPercentage})
+                                </li>
+                            </ul>
+                        ))}
                     </div>
                 </div>
             </nav>

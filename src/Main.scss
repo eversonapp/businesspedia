@@ -69,6 +69,25 @@ body{
             }
         }
     }
+
+    .indexPrices{
+        background: #DB4437;
+        font-size: 0.9rem;
+        display: flex;
+        justify-content: center;
+        div{
+            display: flex;
+            justify-content: space-around;
+            background: #333333;
+            max-width: 1140px;
+            width: 90%;
+            overflow: hidden;
+            ul{
+                display: flex;
+                padding: 5px 10px;
+            }
+        }
+    }
 }
 
 .btnSearch{
@@ -239,26 +258,20 @@ body{
         .companyNewsTxt{
             padding: 10px 10px;
         }
-
     }
-    .indexPrices{
-        min-width: 280px;
+
+    .companyRecommendations{
         background: #FFFFFF;
         border: 1px solid #CECECE;
         border-radius: 2px;
         padding: 20px;
-        margin: 0 0 0 20px;
+        margin-left: 20px;
+        font-weight: bold;
+
         ul{
-            margin-bottom: 20px;
-            display: block;
-            li{
-                background: #FFFFFF;
-                
-                .indexPricesPrice{
-                    font-size: 2rem;
-                    font-weight: bold;
-                }    
-            }
+            border-bottom: 1px solid #CECECE;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
         }
     }
 }
@@ -317,10 +330,6 @@ body{
             .companyNewsTxt{
                 padding: 10px 0;
             }
-        }
-
-        .indexPrices{
-            margin: 20px 0 0 0;
         }
     }
 }

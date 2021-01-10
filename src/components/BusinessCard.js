@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Line } from 'react-chartjs-2';
-import { apiAlphaVantage, apiFinnhub, apiFmp, apiPolygon } from './Api';
+import { apiAlphaVantage, apiFinnhub, apiFmp, apiPolygon, apiIex } from './Api';
 
 export default class BusinessCard extends Component {
     constructor(props) {
@@ -13,7 +13,6 @@ export default class BusinessCard extends Component {
             companyFinancials: [],
             companyNews: [],
             ChartPrice:{},
-            IndexsPrices: [],
             companyReco: []
         }
     }
@@ -80,8 +79,7 @@ export default class BusinessCard extends Component {
         var mm = String(today.getMonth() + 1).padStart(2, '0');
         var yyyy = today.getFullYear();
         today = yyyy + '-' + mm + '-' + dd
-        const urlApi = 'https://finnhub.io/api/v1/company-news?symbol=' +
-        companyCod + '&from=' + today + '&' + today  + '&token=' + apiFinnhub 
+        const urlApi = 'https://cloud.iexapis.com/stable/stock/' + companyCod + '/news/last/3?token=' + apiIex 
         fetch(urlApi)
             .then(res => res.json())
             .then(json => {
@@ -89,17 +87,6 @@ export default class BusinessCard extends Component {
                     companyNews: json
                 })
             })
-    }
-
-    loadingIndexPrices = async () => {
-        const urlApi  = 'https://financialmodelingprep.com/api/v3/quote/%5EDJI,%5EIXIC,^GSPC,^BVSP,^N100,^N225?apikey=' + apiFmp
-        fetch(urlApi)
-        .then(res => res.json())
-        .then(data => {
-            this.setState({
-                IndexsPrices: data.reverse()
-            })
-        })
     }
 
     loadingRecommendation = async (companyCod) => {
@@ -162,6 +149,7 @@ export default class BusinessCard extends Component {
     this.loadingBusinessFinancials(companyCod)
     this.loadingBusinessNews(companyCod)
     this.loadingChartPrice(companyCod)
+    this.loadingRecommendation(companyCod)
     }
 
     componentDidMount(){
@@ -169,12 +157,11 @@ export default class BusinessCard extends Component {
         this.loadingBusinessFinancials(this.state.companyCod)
         this.loadingBusinessNews(this.state.companyCod)
         this.loadingChartPrice(this.state.companyCod)
-        this.loadingIndexPrices()
         this.loadingRecommendation(this.state.companyCod)
     }
 
     render() {
-        const {company, companyFinancials, companyNews, ChartPrice, IndexsPrices, companyReco} = this.state
+        const {company, companyFinancials, companyNews, ChartPrice, companyReco} = this.state
   
         return (
             <div className='content'>
@@ -290,21 +277,7 @@ export default class BusinessCard extends Component {
                         ))}
                     </div>
 
-                    <div className="indexPrices">
-                        {IndexsPrices.map(item => (
-                            <ul>
-                                <li> 
-                                    <h3> {item.name} </h3> 
-                                </li>
-                                <li>
-                                    <span className="indexPricesPrice"> {new Intl.NumberFormat().format(item.price)} </span>
-                                </li>
-                                <li>
-                                    <span className="indexPricesChanges">{item.change} </span>
-                                    <span className="indexPricesPercentage">(%{item.changesPercentage}) </span>
-                                </li>
-                            </ul>
-                        ))}
+                    <div className="companyRecommendations">
                         <h2>Recommendations</h2>
                         {companyReco.map(item => (
                             <ul key={item.id}>
