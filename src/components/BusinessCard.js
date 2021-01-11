@@ -13,7 +13,7 @@ export default class BusinessCard extends Component {
             companyFinancials: [],
             companyNews: [],
             ChartPrice:{},
-            companyReco: []
+            companyRecommendation: []
         }
     }
     
@@ -95,7 +95,7 @@ export default class BusinessCard extends Component {
             .then(res => res.json())
             .then(data => {
                 this.setState({
-                    companyReco: data
+                    companyRecommendation: data[0]
                 })
             })
     }        
@@ -161,7 +161,7 @@ export default class BusinessCard extends Component {
     }
 
     render() {
-        const {company, companyFinancials, companyNews, ChartPrice, companyReco} = this.state
+        const {company, companyFinancials, companyNews, ChartPrice, companyRecommendation} = this.state
   
         return (
             <div className='content'>
@@ -270,26 +270,24 @@ export default class BusinessCard extends Component {
                             </div>
                             <div className="companyNewsTxt">
                                 <h2> {item.headline} </h2>
-                                <p> {item.summary} </p>
+                                <p> {(item.summary).substring(0,140) + "..."} </p>
                                 <h6> {item.source} </h6>
                             </div>
                         </a>
                         ))}
                     </div>
 
-                    <div className="companyRecommendations">
+                    <div className="companyRecommendation">
                         <h2>Recommendations</h2>
-                        {companyReco.map(item => (
-                            <ul key={item.id}>
-                                <li>Symbol: {item.symbol} </li>
-                                <li>Period: {item.period} </li>
-                                <li>Strong Buy: {item.strongBuy} </li>
-                                <li>Buy: {item.buy} </li>
-                                <li>Hold: {item.hold} </li>
-                                <li>Sell: {item.sell} </li>
-                                <li>Strong Sell: {item.strongSell} </li>
-                            </ul>
-                        ))}
+                        <ul>
+                            <li>Symbol: {companyRecommendation.symbol} </li>
+                            <li>Strong Buy: {companyRecommendation.strongBuy} </li>
+                            <li>Buy: {companyRecommendation.buy} </li>
+                            <li>Hold: {companyRecommendation.hold} </li>
+                            <li>Sell: {companyRecommendation.sell} </li>
+                            <li>Strong Sell: {companyRecommendation.strongSell} </li>
+                            <li>Analyse period: {companyRecommendation.period} </li>
+                        </ul>
                     </div>
                 </div>
 

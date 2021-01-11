@@ -71,20 +71,22 @@ body{
     }
 
     .indexPrices{
-        background: #DB4437;
+        background: #333333;
         font-size: 0.9rem;
         display: flex;
         justify-content: center;
         div{
             display: flex;
             justify-content: space-around;
-            background: #333333;
             max-width: 1140px;
             width: 90%;
             overflow: hidden;
             ul{
                 display: flex;
                 padding: 5px 10px;
+                li{
+                    padding: 0 2px;
+                }
             }
         }
     }
@@ -246,6 +248,7 @@ body{
         .companyNewsImg{
             min-width: 250px;
             min-height: 150px;
+            max-height: 150px;
             overflow: hidden;
             border-radius: 2px;
 
@@ -260,7 +263,7 @@ body{
         }
     }
 
-    .companyRecommendations{
+    .companyRecommendation{
         background: #FFFFFF;
         border: 1px solid #CECECE;
         border-radius: 2px;

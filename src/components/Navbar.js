@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import Logo from '../pics/logo.svg'
+import downSign from '../pics/downSign.svg'
+import upSign from '../pics/upSign.svg'
 import {apiFmp} from './Api'
+
 
 class Navbar extends Component {
     constructor(props) {
@@ -14,9 +17,9 @@ class Navbar extends Component {
     loadingCurrency = async () => {
         fetch('https://free.currconv.com/api/v7/convert?q=EUR_USD,BRL_USD&compact=ultra&apiKey=fb6abfc5dc87c5ea1774')
             .then(res => res.json())
-            .then(json => {
+            .then(data => {
                 this.setState({
-                    companyCoin: json
+                    companyCoin: data
                 })
             })
     }
@@ -30,6 +33,18 @@ class Navbar extends Component {
                 IndexsPrices: data.reverse()
             })
         })
+    }
+
+    indexColors = (x) => {
+        if(x < 0){
+            return <img src={upSign} alt="up" height='10px' width='15px' />
+        }
+        else if(x > 0){
+            return <img src={downSign} alt="down" height='10px' width='15px' />
+        }
+        else{
+            return ''
+        }
     }
 
     componentDidMount(){
@@ -55,10 +70,10 @@ class Navbar extends Component {
                         {IndexsPrices.map(item => (
                             <ul>
                                 <li> 
-                                    {item.name} 
+                                    <b>{(item.name).replaceAll(' Composite', '').replaceAll(' Industrial Average', '')}</b> 
                                 </li>
                                 <li>
-                                    {new Intl.NumberFormat().format(item.price)}
+                                    {this.indexColors(item.price)}
                                 </li>
                                 <li>
                                 {item.change}
