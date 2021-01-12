@@ -8,6 +8,10 @@ export default function Navbar(){
             <a href="index.html" className="navbarLogo">
                 <img src={Logo} alt="Businesspedia" />
             </a>
+            <ul>
+                <li>About</li>
+                <li>Contact</li>
+            </ul>
         </div>
     </nav>
     )

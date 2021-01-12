@@ -49,18 +49,10 @@ body{
             }
         }
 
-        .navbarMenu{
+        ul{
             display: flex;
-            color: #FFFFFF;
-            background: #0F9D58;
-            padding: 10px;
-            border-radius: 2px;
-            text-align: center;
-            font-weight: bold;
-            transition: 200ms ease-in-out;
-            cursor: pointer;
-            &:hover{
-                background: #0c7e47;
+            li{
+                padding: 10px;
             }
         }
     }
@@ -260,12 +252,44 @@ body{
     .contentSidebar{
         margin-left: 20px;
 
-        .recommendation, .indices, .currency{
+        .recommendation, .indixes, .currency{
             background: #FFFFFF;
             border: 1px solid #CECECE;
             border-radius: 2px;
-            padding: 20px;
             margin-bottom: 20px;
+        }
+
+        .indixes{
+            h2{
+                padding: 20px 20px 10px 20px;
+                border-bottom: 1px solid #CECECE;
+            }
+
+            ul{
+                padding: 20px 20px 0 20px;
+                &:last-child{
+                    padding: 20px 20px 20px 20px;
+                }
+            }
+
+            .indexesName{
+                font-size: 1.5rem;
+            }
+
+            .indexesPrice{
+                font-size: 2rem;
+                font-weight: bold;
+            }
+
+            .indexesChanges{
+                font-weight: bold;
+                span{
+                    margin: 0 5px;
+                    &:first-child{
+                        margin: 0 5px 5px 0;
+                    }
+                }
+            }
         }
     }
 }

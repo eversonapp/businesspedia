@@ -98,7 +98,7 @@ export default class BusinessCard extends Component {
     }
     
     loadingIndexPrices = async () => {
-        const urlApi  = 'https://financialmodelingprep.com/api/v3/quote/%5EDJI,%5EIXIC,^GSPC?apikey=' + apiFmp
+        const urlApi  = 'https://financialmodelingprep.com/api/v3/quote/%5EDJI,%5EIXIC,^GSPC,^BVSP,^N100?apikey=' + apiFmp
         fetch(urlApi)
         .then(res => res.json())
         .then(data => {
@@ -314,21 +314,19 @@ export default class BusinessCard extends Component {
                             ))}
                         </div>
                         
-                        <div className="indices">
-                            <h2>US Market Indices</h2>
+                        <div className="indixes">
+                            <h2>Market Indixes</h2>
                             {IndexsPrices.map(item => (
                             <ul>
-                                <li> 
-                                    <b>{(item.name).replaceAll(' Composite', '').replaceAll(' Industrial Average', '')}</b> 
+                                <li className="indexesName"> 
+                                    {(item.name).replaceAll(' Composite', '').replaceAll(' Industrial Average', '')}
                                 </li>
-                                <li>
+                                <li className="indexesPrice">
                                     {item.price}
                                 </li>
-                                <li>
-                                    {item.change}
-                                </li>
-                                <li>
-                                    %{item.changesPercentage}
+                                <li className="indexesChanges" style={{color: Math.sign(item.change) === -1 ? "#DB4437" : "#0F9D58"}}>
+                                    <span>{(((item.change) > 0) ? ("+" + (item.change)) : (item.change))}</span>
+                                    <span>%{item.changesPercentage}</span>
                                 </li>
                             </ul>
                             ))}
