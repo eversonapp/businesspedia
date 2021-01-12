@@ -1,8 +1,3 @@
-$Businesspedia-b: #222222;
-$Businesspedia-r: #4285F4;
-$Businesspedia-g1: #DB4437;
-$Businesspedia-g2: #0F9D58;
-$Businesspedia-w: #FFFFFF;
 *{margin: 0; padding: 0; border: 0;}
 
 img{max-width: 300px;}
@@ -80,7 +75,6 @@ body{
             justify-content: space-around;
             max-width: 1140px;
             width: 90%;
-            overflow: hidden;
             ul{
                 display: flex;
                 padding: 5px 10px;
@@ -223,7 +217,7 @@ body{
     text-align: center;
 }
 
-.companyNewsCoins{
+.mainContent{
     display: flex;
     flex-direction: row;
     .companyNews{
@@ -263,18 +257,15 @@ body{
         }
     }
 
-    .companyRecommendation{
-        background: #FFFFFF;
-        border: 1px solid #CECECE;
-        border-radius: 2px;
-        padding: 20px;
+    .contentSidebar{
         margin-left: 20px;
-        font-weight: bold;
 
-        ul{
-            border-bottom: 1px solid #CECECE;
-            margin-bottom: 10px;
-            padding-bottom: 10px;
+        .recommendation, .indices, .currency{
+            background: #FFFFFF;
+            border: 1px solid #CECECE;
+            border-radius: 2px;
+            padding: 20px;
+            margin-bottom: 20px;
         }
     }
 }
@@ -322,8 +313,7 @@ body{
         }
     }
     
-
-    .companyNewsCoins{
+    .mainContent{
         display: flex;
         flex-direction: column;
 
@@ -333,6 +323,11 @@ body{
             .companyNewsTxt{
                 padding: 10px 0;
             }
+        }
+        
+        .contentSidebar{
+            margin-top: 20px;
+            margin-left: 0;
         }
     }
 }

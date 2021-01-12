@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import { Line } from 'react-chartjs-2';
-import { apiAlphaVantage, apiFinnhub, apiFmp, apiPolygon, apiIex } from './Api';
+import React, { Component } from 'react'
+import { Line } from 'react-chartjs-2'
+import { apiAlphaVantage, apiFinnhub, apiFmp, apiPolygon, apiIex, curConv } from './Api'
 
 export default class BusinessCard extends Component {
     constructor(props) {
@@ -9,11 +9,13 @@ export default class BusinessCard extends Component {
         this.state = {
             companyCod: 'TSLA',
 
+            companyCoin: [],
             company: [],
             companyFinancials: [],
             companyNews: [],
             ChartPrice:{},
-            companyRecommendation: []
+            companyRecommendation: [],
+            IndexsPrices: [],
         }
     }
     
@@ -60,12 +62,12 @@ export default class BusinessCard extends Component {
 
                     pointerToThis.setState({
                         ChartPrice: {
-                            labels: dataChart.reverse(),
+                            labels: dataChart.slice(0,240).reverse(),
                             datasets: [{
                                 label:'Stock Price',
                                 backgroundColor: 'rgba(66, 133, 244, 0.1)',
                                 borderColor: 'rgba(66, 133, 244, 1)',
-                                data: priceChart.reverse()
+                                data: priceChart.slice(0,240).reverse()
                             }]
                         }
                     })
@@ -74,12 +76,7 @@ export default class BusinessCard extends Component {
     }
 
     loadingBusinessNews = async (companyCod) => {
-        var today = new Date();
-        var dd = String(today.getDate()).padStart(2, '0');
-        var mm = String(today.getMonth() + 1).padStart(2, '0');
-        var yyyy = today.getFullYear();
-        today = yyyy + '-' + mm + '-' + dd
-        const urlApi = 'https://cloud.iexapis.com/stable/stock/' + companyCod + '/news/last/3?token=' + apiIex 
+        const urlApi = 'https://cloud.iexapis.com/stable/stock/' + companyCod + '/news/last/5/?token=' + apiIex 
         fetch(urlApi)
             .then(res => res.json())
             .then(json => {
@@ -95,10 +92,32 @@ export default class BusinessCard extends Component {
             .then(res => res.json())
             .then(data => {
                 this.setState({
-                    companyRecommendation: data[0]
+                    companyRecommendation: data
                 })
             })
-    }        
+    }
+    
+    loadingIndexPrices = async () => {
+        const urlApi  = 'https://financialmodelingprep.com/api/v3/quote/%5EDJI,%5EIXIC,^GSPC?apikey=' + apiFmp
+        fetch(urlApi)
+        .then(res => res.json())
+        .then(data => {
+            this.setState({
+                IndexsPrices: data.reverse()
+            })
+        })
+    }
+
+    loadingCurrency = async () => {
+        const apiUrl = 'https://free.currconv.com/api/v7/convert?q=EUR_USD,BRL_USD&compact=ultra&apiKey=' + curConv
+        fetch(apiUrl)
+            .then(res => res.json())
+            .then(data => {
+                this.setState({
+                    companyCoin: data
+                })
+            })
+    }
 
     formatingLetters = (string) => {
         return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
@@ -158,10 +177,12 @@ export default class BusinessCard extends Component {
         this.loadingBusinessNews(this.state.companyCod)
         this.loadingChartPrice(this.state.companyCod)
         this.loadingRecommendation(this.state.companyCod)
+        this.loadingCurrency()
+        this.loadingIndexPrices()
     }
 
     render() {
-        const {company, companyFinancials, companyNews, ChartPrice, companyRecommendation} = this.state
+        const {company, companyFinancials, companyNews, ChartPrice, companyRecommendation, IndexsPrices, companyCoin} = this.state
   
         return (
             <div className='content'>
@@ -261,9 +282,9 @@ export default class BusinessCard extends Component {
                          /> 
                 </div>
 
-                <div className="companyNewsCoins">
+                <div className="mainContent">
                     <div className="companyNews">
-                        {companyNews.slice(0,3).map(item => (
+                        {companyNews.map(item => (
                         <a href={item.url} target="_blank" rel="noreferrer" className='companyNews'>
                             <div className="companyNewsImg">
                                 <img src={item.image} alt={item.related} title={item.related} />
@@ -277,17 +298,52 @@ export default class BusinessCard extends Component {
                         ))}
                     </div>
 
-                    <div className="companyRecommendation">
-                        <h2>Recommendations</h2>
-                        <ul>
-                            <li>Symbol: {companyRecommendation.symbol} </li>
-                            <li>Strong Buy: {companyRecommendation.strongBuy} </li>
-                            <li>Buy: {companyRecommendation.buy} </li>
-                            <li>Hold: {companyRecommendation.hold} </li>
-                            <li>Sell: {companyRecommendation.sell} </li>
-                            <li>Strong Sell: {companyRecommendation.strongSell} </li>
-                            <li>Analyse period: {companyRecommendation.period} </li>
-                        </ul>
+                    <div className="contentSidebar">
+                        <div className="recommendation">
+                            <h2>Recommendations</h2>
+                            {companyRecommendation.slice(0,1).map(item => (
+                            <ul>
+                                <li><b>Symbol:</b> <span>{item.symbol}</span> </li>
+                                <li><b>Strong Buy:</b> {item.strongBuy} </li>
+                                <li><b>Buy:</b> {item.buy} </li>
+                                <li><b>Hold:</b> {item.hold} </li>
+                                <li><b>Sell:</b> {item.sell} </li>
+                                <li><b>Strong Sell:</b> {item.strongSell} </li>
+                                <li><b>Analyse period:</b> {(item.period).replaceAll('-','/')} </li>
+                            </ul>
+                            ))}
+                        </div>
+                        
+                        <div className="indices">
+                            <h2>US Market Indices</h2>
+                            {IndexsPrices.map(item => (
+                            <ul>
+                                <li> 
+                                    <b>{(item.name).replaceAll(' Composite', '').replaceAll(' Industrial Average', '')}</b> 
+                                </li>
+                                <li>
+                                    {item.price}
+                                </li>
+                                <li>
+                                    {item.change}
+                                </li>
+                                <li>
+                                    %{item.changesPercentage}
+                                </li>
+                            </ul>
+                            ))}
+                        </div>
+                        <div className="currency">
+                            <h2>Currency Exchange</h2>
+                            <ul>
+                                <li>
+                                    BRL/USD: ${new Intl.NumberFormat().format(companyCoin.BRL_USD).toString().substring(0,4)}
+                                </li>
+                                <li>
+                                    EUR/USD: ${new Intl.NumberFormat().format(companyCoin.EUR_USD).toString().substring(0,4)}
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
 
