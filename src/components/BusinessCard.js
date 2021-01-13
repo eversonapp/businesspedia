@@ -76,7 +76,7 @@ export default class BusinessCard extends Component {
     }
 
     loadingBusinessNews = async (companyCod) => {
-        const urlApi = 'https://cloud.iexapis.com/stable/stock/' + companyCod + '/news/last/5/?token=' + apiIex 
+        const urlApi = 'https://cloud.iexapis.com/stable/stock/' + companyCod + '/news/last/7/?token=' + apiIex 
         fetch(urlApi)
             .then(res => res.json())
             .then(json => {
@@ -218,7 +218,7 @@ export default class BusinessCard extends Component {
                         <li><b>CEO:</b> {item.ceo}</li>
                         <li><b>Employees:</b> {new Intl.NumberFormat().format(item.fullTimeEmployees)}</li>
                         <li><b>Headquarters:</b> {this.formatingLetters(item.state)} - {item.country}</li>
-                        <li><b>Website:</b> <a href={item.website} targe='_blank'>{(item.website).toString().slice(0,-1).replaceAll('http://','').replaceAll('https://','').replaceAll('www.','')} </a></li>
+                        <li><b>Website:</b> <a href={item.website} target='_blank' rel="noreferrer">{(item.website).toString().slice(0,-1).replaceAll('http://','').replaceAll('https://','').replaceAll('www.','')} </a></li>
                     </ul>
                 </div>
                 ))}
@@ -332,13 +332,13 @@ export default class BusinessCard extends Component {
                             ))}
                         </div>
                         <div className="currency">
-                            <span className="sidebarTitles">Currency Exchange</span>
+                            <span className="sidebarTitles">Currencies</span>
                             <ul>
                                 <li>
-                                    BRL/USD: ${new Intl.NumberFormat().format(companyCoin.BRL_USD).toString().substring(0,4)}
+                                    <span style={{color: "#0F9D58"}}>BRL-USD:</span> <b>${new Intl.NumberFormat().format(companyCoin.BRL_USD).toString().substring(0,4)}</b>
                                 </li>
                                 <li>
-                                    EUR/USD: ${new Intl.NumberFormat().format(companyCoin.EUR_USD).toString().substring(0,4)}
+                                    <span style={{color: "#4285F4"}}> EUR-USD:</span> <b>${new Intl.NumberFormat().format(companyCoin.EUR_USD).toString().substring(0,4)}</b>
                                 </li>
                             </ul>
                         </div>
