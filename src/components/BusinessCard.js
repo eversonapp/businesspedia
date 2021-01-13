@@ -322,7 +322,7 @@ export default class BusinessCard extends Component {
                                     {(item.name).replaceAll(' Composite', '').replaceAll(' Industrial Average', '')}
                                 </li>
                                 <li className="indexesPrice">
-                                    {item.price}
+                                    {new Intl.NumberFormat().format(item.price)}
                                 </li>
                                 <li className="indexesChanges" style={{color: Math.sign(item.change) === -1 ? "#DB4437" : "#0F9D58"}}>
                                     <span>{(((item.change) > 0) ? ("+" + (item.change)) : (item.change))}</span>
