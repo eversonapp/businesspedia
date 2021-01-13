@@ -52,13 +52,21 @@ body{
         ul{
             display: flex;
             li{
-                padding: 10px;
+                color: #CECECE;
+                font-weight: bold;
+                margin: 10px;
                 cursor: pointer;
-
+                &:hover{
+                    color: #FFFFFF;
+                }
                 a{
                     text-decoration: none;
-                    color: #ffffff;
+                    color: #CECECE;
+                    &:hover{
+                        color: #FFFFFF;
+                    }
                 }
+
             }
         }
     }
