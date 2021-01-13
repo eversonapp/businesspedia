@@ -300,7 +300,7 @@ export default class BusinessCard extends Component {
 
                     <div className="contentSidebar">
                         <div className="recommendation">
-                            <h2>Recommendations</h2>
+                            <span className="sidebarTitles">Recommendations</span>
                             {companyRecommendation.slice(0,1).map(item => (
                             <ul>
                                 <li><b>Symbol:</b> <span>{item.symbol}</span> </li>
@@ -315,7 +315,7 @@ export default class BusinessCard extends Component {
                         </div>
                         
                         <div className="indixes">
-                            <h2>Market Indixes</h2>
+                            <span className="sidebarTitles">Market Indixes</span>
                             {IndexsPrices.map(item => (
                             <ul>
                                 <li className="indexesName"> 
@@ -332,7 +332,7 @@ export default class BusinessCard extends Component {
                             ))}
                         </div>
                         <div className="currency">
-                            <h2>Currency Exchange</h2>
+                            <span className="sidebarTitles">Currency Exchange</span>
                             <ul>
                                 <li>
                                     BRL/USD: ${new Intl.NumberFormat().format(companyCoin.BRL_USD).toString().substring(0,4)}

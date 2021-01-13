@@ -53,6 +53,12 @@ body{
             display: flex;
             li{
                 padding: 10px;
+                cursor: pointer;
+
+                a{
+                    text-decoration: none;
+                    color: #ffffff;
+                }
             }
         }
     }
@@ -257,10 +263,12 @@ body{
             border: 1px solid #CECECE;
             border-radius: 2px;
             margin-bottom: 20px;
-        }
 
-        .indixes{
-            h2{
+            .sidebarTitles{
+                display: block;
+                font-weight: bold;
+                font-size: 1.5rem;
+                white-space: nowrap;
                 padding: 20px 20px 10px 20px;
                 border-bottom: 1px solid #CECECE;
             }
@@ -271,7 +279,17 @@ body{
                     padding: 20px 20px 20px 20px;
                 }
             }
+        }
 
+        .recommendation{
+            li{
+                &:last-child{
+                    color: #777777;
+                }
+            }
+        }
+
+        .indixes{
             .indexesName{
                 font-size: 1.5rem;
             }
