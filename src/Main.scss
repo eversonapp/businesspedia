@@ -274,6 +274,7 @@ body{
 
             .sidebarTitles{
                 display: block;
+                text-align: center;
                 font-weight: bold;
                 font-size: 1.5rem;
                 white-space: nowrap;
@@ -290,15 +291,10 @@ body{
         }
 
         .recommendation{
-            li{
-                display: block;
-                font-size: 1.5rem;
-                .recommendationSymbol{
-                    color: #DB4437;
-                }
-                &:last-child{
-                    font-size: 1rem;
-                    margin-top: 10px;
+            .recommendationContent{
+                text-align: center;
+                padding: 10px;
+                p{
                     color: #777777;
                 }
             }

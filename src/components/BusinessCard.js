@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Line } from 'react-chartjs-2'
+import { Line, HorizontalBar } from 'react-chartjs-2'
 import { apiAlphaVantage, apiFinnhub, apiFmp, apiPolygon, apiIex, curConv } from './Api'
 
 export default class BusinessCard extends Component {
@@ -14,6 +14,7 @@ export default class BusinessCard extends Component {
             companyFinancials: [],
             companyNews: [],
             ChartPrice:{},
+            companyRecommendationDate: [],
             companyRecommendation: [],
             IndexsPrices: [],
         }
@@ -92,7 +93,40 @@ export default class BusinessCard extends Component {
             .then(res => res.json())
             .then(data => {
                 this.setState({
-                    companyRecommendation: data
+                    companyRecommendationDate: data,
+                    companyRecommendation: {
+                        labels: [
+                            "Strong Buy",                                                        
+                            "Buy",                                                    
+                            "Hold",                                                    
+                            "Sell",                                                    
+                            "Strong Sell",                                                        
+                        ],
+                        datasets: [{
+                            data: [
+                                data[0].strongBuy,
+                                data[0].buy,
+                                data[0].hold,
+                                data[0].strongSell,
+                                data[0].sell,
+                            ],
+                            backgroundColor: [
+                                'rgba(66, 133, 244, 0.7)',
+                                'rgba(219, 68, 55, 0.7)',
+                                'rgba(119, 119, 119, 0.7)',
+                                'rgba(244, 180, 0, 0.7)',
+                                'rgba(15, 157, 88, 0.7)',
+                              ],
+                              borderColor: [
+                                'rgba(66, 133, 244, 1)',
+                                'rgba(219, 68, 55, 1)',
+                                'rgba(119, 119, 119, 1)',
+                                'rgba(244, 180, 0, 1)',
+                                'rgba(15, 157, 88, 1)',
+                              ],
+                              borderWidth: 1,
+                        }]
+                    }
                 })
             })
     }
@@ -182,7 +216,7 @@ export default class BusinessCard extends Component {
     }
 
     render() {
-        const {company, companyFinancials, companyNews, ChartPrice, companyRecommendation, IndexsPrices, companyCoin} = this.state
+        const {company, companyFinancials, companyNews, ChartPrice, companyRecommendation, IndexsPrices, companyCoin, companyRecommendationDate} = this.state
   
         return (
             <div className='content'>
@@ -192,6 +226,10 @@ export default class BusinessCard extends Component {
                         <option value="BABA">Alibaba</option>
                         <option value="AMZN">Amazon</option>
                         <option value="TSLA">Tesla</option>
+                        <option value="ADBE">Adobe</option>
+                        <option value="DIS">Disney</option>
+                        <option value="FB">Facebook</option>
+                        <option value="MNST">Monster Energy</option>
                     </select>
                 </div>
 
@@ -238,8 +276,6 @@ export default class BusinessCard extends Component {
                                     <th>ROE</th>
                                     <th>Cash</th>
                                     <th>Debt</th>
-                                    <th title='Dividend per Share'>DPS</th>
-                                    <th>DY</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -254,8 +290,6 @@ export default class BusinessCard extends Component {
                                     <th> {(item.returnOnAverageEquity === undefined) ? '' : ((item.returnOnAverageEquity < 0) ? 'LOSS' : Math.round(item.returnOnAverageEquity * 100) + '%')}</th>
                                     <th> {this.formatingValues(item.cashAndEquivalents)} </th>
                                     <th> {this.formatingValues(item.debt)} </th>
-                                    <th> {(item.dividendsPerBasicCommonShare === undefined) ? '' : item.dividendsPerBasicCommonShare.toString().substring(0,4)} </th>
-                                    <th> {(item.dividendYield === undefined) ? '' : Math.round(item.dividendYield) + '%'} </th>
                                 </tr>
                             ))}
                             </tbody>
@@ -301,17 +335,19 @@ export default class BusinessCard extends Component {
                     <div className="contentSidebar">
                         <div className="recommendation">
                             <span className="sidebarTitles">Recommendations</span>
-                            {companyRecommendation.slice(0,1).map(item => (
-                            <ul>
-                                <li>Symbol: <b><span className="recommendationSymbol" >{item.symbol}</span></b></li>
-                                <li>Strong Buy: <b>{item.strongBuy}</b> </li>
-                                <li>Buy: <b>{item.buy}</b> </li>
-                                <li>Hold: <b>{item.hold}</b> </li>
-                                <li>Sell: <b>{item.sell}</b> </li>
-                                <li>Strong Sell: <b>{item.strongSell}</b> </li>
-                                <li>Analyse period: <b>{(item.period).replaceAll('-','/')}</b> </li>
-                            </ul>
-                            ))}
+                            <div className="recommendationContent">
+                                <HorizontalBar
+                                    data={companyRecommendation} options={{
+                                        legend: {
+                                            display: false,
+                                        },
+                                        
+                                    }}
+                                />
+                                {companyRecommendationDate.slice(0,1).map(item => (
+                                    <p> Last {item.symbol} Analyse: <b>{(item.period).replaceAll('-','/')}</b> </p>
+                                ))}
+                            </div>
                         </div>
                         
                         <div className="indixes">
@@ -326,7 +362,7 @@ export default class BusinessCard extends Component {
                                 </li>
                                 <li className="indexesChanges" style={{color: Math.sign(item.change) === -1 ? "#DB4437" : "#0F9D58"}}>
                                     <span>{(((item.change) > 0) ? ("+" + (item.change)) : (item.change))}</span>
-                                    <span>%{item.changesPercentage}</span>
+                                    <span>{item.changesPercentage}%</span>
                                 </li>
                             </ul>
                             ))}
