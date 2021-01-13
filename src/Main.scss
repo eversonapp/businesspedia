@@ -271,6 +271,7 @@ body{
             border: 1px solid #CECECE;
             border-radius: 2px;
             margin-bottom: 20px;
+            text-align: center;
 
             .sidebarTitles{
                 display: block;
@@ -280,6 +281,7 @@ body{
                 white-space: nowrap;
                 padding: 20px 20px 10px 20px;
                 border-bottom: 1px solid #CECECE;
+                color: #DB4437;
             }
 
             ul{
@@ -292,7 +294,6 @@ body{
 
         .recommendation{
             .recommendationContent{
-                text-align: center;
                 padding: 10px;
                 p{
                     color: #777777;
@@ -301,6 +302,14 @@ body{
         }
 
         .indixes{
+            ul{
+                border-bottom: 1px solid #CECECE;
+                padding-bottom: 20px;
+                &:last-child{
+                    border-bottom: 0;
+                }
+            }
+
             .indexesName{
                 font-size: 1.5rem;
             }
@@ -323,6 +332,20 @@ body{
 
         .currency{
             font-size: 1.5rem;
+            img{
+                max-width: 40px;
+                margin: 0 10px;
+            }
+            
+            li{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 20px;
+                &:last-child{
+                    margin-bottom: 0;
+                }
+            }
         }
     }
 }

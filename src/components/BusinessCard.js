@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import { Line, HorizontalBar } from 'react-chartjs-2'
 import { apiAlphaVantage, apiFinnhub, apiFmp, apiPolygon, apiIex, curConv } from './Api'
+import Brazil from '../pics/flagBrazil.png'
+import Euro from '../pics/flagEuro.png'
+import USA from '../pics/flagUsa.png'
 
 export default class BusinessCard extends Component {
     constructor(props) {
@@ -345,7 +348,7 @@ export default class BusinessCard extends Component {
                                     }}
                                 />
                                 {companyRecommendationDate.slice(0,1).map(item => (
-                                    <p> Last {item.symbol} Analyse: <b>{(item.period).replaceAll('-','/')}</b> </p>
+                                    <p>{item.symbol} Analyse: <b>{(item.period).replaceAll('-','/')}</b> </p>
                                 ))}
                             </div>
                         </div>
@@ -371,10 +374,10 @@ export default class BusinessCard extends Component {
                             <span className="sidebarTitles">Currencies</span>
                             <ul>
                                 <li>
-                                    <span style={{color: "#0F9D58"}}>BRL-USD:</span> <b>${new Intl.NumberFormat().format(companyCoin.BRL_USD).toString().substring(0,4)}</b>
+                                <img src={Brazil} alt="BRL/USD" /> <b>to</b> <img src={USA} alt="USA" /> <b>${new Intl.NumberFormat().format(companyCoin.BRL_USD).toString().substring(0,4)}</b>
                                 </li>
                                 <li>
-                                    <span style={{color: "#4285F4"}}> EUR-USD:</span> <b>${new Intl.NumberFormat().format(companyCoin.EUR_USD).toString().substring(0,4)}</b>
+                                    <img src={Euro} alt="EUR/USD" /> <b>to</b> <img src={USA} alt="USA" /> <b>${new Intl.NumberFormat().format(companyCoin.EUR_USD).toString().substring(0,4)}</b>
                                 </li>
                             </ul>
                         </div>
