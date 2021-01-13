@@ -210,15 +210,15 @@ export default class BusinessCard extends Component {
                         <p className="companyDesc"> {item.description} </p>
                     </div>
                     <ul className="companySidebar">
-                        <li> <b>{item.exchangeShortName}: </b>{item.symbol}</li>
-                        <li><b>IPO:</b> {(item.ipoDate).replaceAll('-','/')}</li>
-                        <li><b>Market Cap:</b> {'$' + (new Intl.NumberFormat().format(item.mktCap))}</li>
-                        <li><b>Industry:</b> {item.industry}</li>
-                        <li><b>Sector:</b> {item.sector}</li>
-                        <li><b>CEO:</b> {item.ceo}</li>
-                        <li><b>Employees:</b> {new Intl.NumberFormat().format(item.fullTimeEmployees)}</li>
-                        <li><b>Headquarters:</b> {this.formatingLetters(item.state)} - {item.country}</li>
-                        <li><b>Website:</b> <a href={item.website} target='_blank' rel="noreferrer">{(item.website).toString().slice(0,-1).replaceAll('http://','').replaceAll('https://','').replaceAll('www.','')} </a></li>
+                        <li>{item.exchangeShortName}: <b>{item.symbol}</b></li>
+                        <li>IPO: <b>{(item.ipoDate).replaceAll('-','/')}</b></li>
+                        <li>Market Cap:<b> {'$' + (new Intl.NumberFormat().format(item.mktCap))}</b></li>
+                        <li>Industry:<b> {item.industry}</b></li>
+                        <li>Sector:<b> {item.sector}</b></li>
+                        <li>CEO:<b> {item.ceo}</b></li>
+                        <li>Employees:<b> {new Intl.NumberFormat().format(item.fullTimeEmployees)}</b></li>
+                        <li>Headquarters:<b> {this.formatingLetters(item.state)} - {item.country}</b></li>
+                        <li>Website:<b> <a href={item.website} target='_blank' rel="noreferrer">{(item.website).toString().slice(0,-1).replaceAll('http://','').replaceAll('https://','').replaceAll('www.','')} </a></b></li>
                     </ul>
                 </div>
                 ))}
@@ -303,13 +303,13 @@ export default class BusinessCard extends Component {
                             <span className="sidebarTitles">Recommendations</span>
                             {companyRecommendation.slice(0,1).map(item => (
                             <ul>
-                                <li><b>Symbol:</b> <span>{item.symbol}</span> </li>
-                                <li><b>Strong Buy:</b> {item.strongBuy} </li>
-                                <li><b>Buy:</b> {item.buy} </li>
-                                <li><b>Hold:</b> {item.hold} </li>
-                                <li><b>Sell:</b> {item.sell} </li>
-                                <li><b>Strong Sell:</b> {item.strongSell} </li>
-                                <li><b>Analyse period:</b> {(item.period).replaceAll('-','/')} </li>
+                                <li>Symbol: <b><span className="recommendationSymbol" >{item.symbol}</span></b></li>
+                                <li>Strong Buy: <b>{item.strongBuy}</b> </li>
+                                <li>Buy: <b>{item.buy}</b> </li>
+                                <li>Hold: <b>{item.hold}</b> </li>
+                                <li>Sell: <b>{item.sell}</b> </li>
+                                <li>Strong Sell: <b>{item.strongSell}</b> </li>
+                                <li>Analyse period: <b>{(item.period).replaceAll('-','/')}</b> </li>
                             </ul>
                             ))}
                         </div>
