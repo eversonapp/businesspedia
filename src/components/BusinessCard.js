@@ -79,6 +79,10 @@ export default class BusinessCard extends Component {
             )
     }
 
+    // changerHandlerChartPrice = () => {
+         
+    // }
+
     loadingBusinessNews = async (companyCod) => {
         const urlApi = 'https://cloud.iexapis.com/stable/stock/' + companyCod + '/news/last/7/?token=' + apiIex 
         fetch(urlApi)
