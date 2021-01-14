@@ -15,6 +15,7 @@ export default class BusinessCard extends Component {
             companyCoin: [],
             company: [],
             companyFinancials: [],
+            companyFinancialsQA: [],
             companyNews: [],
             ChartPrice:{},
             companyRecommendationDate: [],
@@ -46,6 +47,18 @@ export default class BusinessCard extends Component {
             })
             ))
         }
+
+    loadingBusinessFinancialsQA = async (companyCod) => {
+        const urlApi = 'https://api.polygon.io/v2/reference/financials/'
+        + companyCod + '?type=QA&apiKey=' + apiPolygon 
+        fetch(urlApi)
+        .then(response => response.json())
+        .then(data => (
+            this.setState({
+                companyFinancialsQA: data.results
+            })
+            ))
+    }
         
     loadingChartPrice = async (companyCod) => {
         const pointerToThis = this;
@@ -78,10 +91,6 @@ export default class BusinessCard extends Component {
                 }
             )
     }
-
-    // changerHandlerChartPrice = () => {
-         
-    // }
 
     loadingBusinessNews = async (companyCod) => {
         const urlApi = 'https://cloud.iexapis.com/stable/stock/' + companyCod + '/news/last/7/?token=' + apiIex 
@@ -207,6 +216,7 @@ export default class BusinessCard extends Component {
     this.setState({companyCod})
     this.loadingCompanyCard(companyCod)
     this.loadingBusinessFinancials(companyCod)
+    this.loadingBusinessFinancialsQA(companyCod)
     this.loadingBusinessNews(companyCod)
     this.loadingChartPrice(companyCod)
     this.loadingRecommendation(companyCod)
@@ -215,6 +225,7 @@ export default class BusinessCard extends Component {
     componentDidMount(){
         this.loadingCompanyCard(this.state.companyCod)
         this.loadingBusinessFinancials(this.state.companyCod)
+        this.loadingBusinessFinancialsQA(this.state.companyCod)
         this.loadingBusinessNews(this.state.companyCod)
         this.loadingChartPrice(this.state.companyCod)
         this.loadingRecommendation(this.state.companyCod)
@@ -223,7 +234,7 @@ export default class BusinessCard extends Component {
     }
 
     render() {
-        const {company, companyFinancials, companyNews, ChartPrice, companyRecommendation, IndexsPrices, companyCoin, companyRecommendationDate} = this.state
+        const {company, companyFinancials,companyFinancialsQA, companyNews, ChartPrice, companyRecommendation,companyRecommendationDate, IndexsPrices, companyCoin} = this.state
   
         return (
             <div className='content'>
@@ -286,19 +297,63 @@ export default class BusinessCard extends Component {
                                 </tr>
                             </thead>
                             <tbody>
-                            {companyFinancials.map(item => (
+                            {companyFinancials.slice(0,10).map(item => (
                                 <tr key={item.id}>
                                     <th> {(item.calendarDate).toString().substring(0,4).replace('-','/')} </th>
                                     <th> {this.formatingValues(item.shareholdersEquity)} </th>
                                     <th> {this.formatingValues(item.revenues)} </th>
                                     <th> {this.formatingValues(item.earningsBeforeInterestTaxesDepreciationAmortization)} </th>
                                     <th> {this.formatingValues(item.netIncome)} </th>
-                                    <th> {(((item.netIncome / item.revenues) * 100) < 0) ? 'LOSS' : (Math.round((item.netIncome / item.revenues) * 100) + '%')} </th>
-                                    <th> {(item.returnOnAverageEquity === undefined) ? '' : ((item.returnOnAverageEquity < 0) ? 'LOSS' : Math.round(item.returnOnAverageEquity * 100) + '%')}</th>
+                                    <th style={{color: Math.sign((item.netIncome / item.revenues) * 100) === -1 ? "#DB4437" : "#333333"}}>
+                                        {(((item.netIncome / item.revenues) * 100) < 0) ? 'LOSS' : (Math.round((item.netIncome / item.revenues) * 100) + '%')}
+                                    </th>
+                                    <th style={{color: Math.sign(item.returnOnAverageEquity) === -1 ? "#DB4437" : "#333333"}}>
+                                        {(item.returnOnAverageEquity === undefined) ? '' : ((item.returnOnAverageEquity < 0) ? 'LOSS' : Math.round(item.returnOnAverageEquity * 100) + '%')}
+                                    </th>
                                     <th> {this.formatingValues(item.cashAndEquivalents)} </th>
                                     <th> {this.formatingValues(item.debt)} </th>
                                 </tr>
                             ))}
+                            </tbody>
+                        </table>    
+                    </div>
+                </div>
+
+                <div className="companyFinancials">
+                        <h2>QA Reports</h2>
+                    <div className="companyFInancialTable">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Year</th>
+                                    <th>Equity</th>
+                                    <th>Revenue</th>
+                                    <th>EBITDA</th>
+                                    <th>Net Income</th>
+                                    <th>Net Margin</th>
+                                    <th>ROE</th>
+                                    <th>Cash</th>
+                                    <th>Debt</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {companyFinancialsQA.slice(0,40).map(item => (
+                                    <tr key={item.id}>
+                                        <th> {(item.calendarDate).toString().substring(0,7).replaceAll('-','/')} </th>
+                                        <th> {this.formatingValues(item.shareholdersEquity)} </th>
+                                        <th> {this.formatingValues(item.revenues)} </th>
+                                        <th> {this.formatingValues(item.earningsBeforeInterestTaxesDepreciationAmortization)} </th>
+                                        <th> {this.formatingValues(item.netIncome)} </th>
+                                        <th style={{color: Math.sign((item.netIncome / item.revenues) * 100) === -1 ? "#DB4437" : "#333333"}}>
+                                            {(((item.netIncome / item.revenues) * 100) < 0) ? 'LOSS' : (Math.round((item.netIncome / item.revenues) * 100) + '%')}
+                                        </th>
+                                        <th style={{color: Math.sign((item.netIncome / item.shareholdersEquity) * 100) === -1 ? "#DB4437" : "#333333"}}> 
+                                            {(((item.netIncome / item.shareholdersEquity) * 100) < 0) ? 'LOSS' : (Math.round((item.netIncome / item.shareholdersEquity) * 100) + '%')}
+                                        </th>
+                                        <th> {this.formatingValues(item.cashAndEquivalents)} </th>
+                                        <th> {this.formatingValues(item.debt)} </th>
+                                    </tr>
+                                ))}
                             </tbody>
                         </table>    
                     </div>
