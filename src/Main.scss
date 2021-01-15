@@ -163,6 +163,8 @@ body{
 
 }
 
+
+
 .companyFinancials{
     background: #FFFFFF;
     border: 1px solid #CECECE;
@@ -173,13 +175,33 @@ body{
     
     .companyFInancialTable{
         overflow-x: auto;
-        border-radius: 2px;
+    }
+
+    #btnQA, .ARTitle{
+        cursor: pointer;
+        display: block;
+        width: 100%;
+        padding: 10px;
+        background: #222222;
+        border-radius: 0;
+        border: 2px solid #222222;
+        color: #FFFFFF;
+        transition: ease-in-out 400ms;
+        &:hover{
+            color: #222222;
+            background: transparent;
+        }
+    }
+
+    #QA{
+        display: none;
     }
 
     table{
         border-collapse: collapse;
         border-spacing: 0;
         width: 100%;
+        margin-top: 1px;
 
         thead{
             th{
@@ -201,6 +223,9 @@ body{
                 }
             }
             tr{
+                &:nth-child(even){
+                    background: #f5f5f5;
+                }
                 &:hover{
                     background: rgba(66, 133, 244, 0.2);
                     cursor: pointer;

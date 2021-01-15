@@ -10,7 +10,7 @@ export default class BusinessCard extends Component {
         super(props);
         
         this.state = {
-            companyCod: 'TSLA',
+            companyCod: 'BKNG',
 
             companyCoin: [],
             company: [],
@@ -248,6 +248,7 @@ export default class BusinessCard extends Component {
                         <option value="DIS">Disney</option>
                         <option value="FB">Facebook</option>
                         <option value="MNST">Monster Energy</option>
+                        <option value="BKNG">Booking</option>
                     </select>
                 </div>
 
@@ -280,7 +281,9 @@ export default class BusinessCard extends Component {
                 ))}
 
                 <div className="companyFinancials">
+                    <button className="ARTitle">
                         <h2>Annual Reports</h2>
+                    </button>
                     <div className="companyFInancialTable">
                         <table>
                             <thead>
@@ -318,11 +321,25 @@ export default class BusinessCard extends Component {
                         </table>    
                     </div>
                 </div>
-
+                        
                 <div className="companyFinancials">
-                        <h2>QA Reports</h2>
                     <div className="companyFInancialTable">
-                        <table>
+                        <button
+                            id="btnQA"
+                            onClick={
+                            function showQA() {
+                                let x = document.getElementById("QA")
+                                if(x.style.display === "none") {
+                                    x.style.display = "table"
+                                }
+                                else{
+                                    x.style.display = "none"
+                                }
+                            }
+                            } >
+                                <h2>QA Reports - Click here to show</h2> 
+                        </button>
+                        <table id="QA">
                             <thead>
                                 <tr>
                                     <th>Year</th>
