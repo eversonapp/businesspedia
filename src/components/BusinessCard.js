@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Line, HorizontalBar } from 'react-chartjs-2'
-import { apiAlphaVantage, apiFinnhub, apiFmp, apiPolygon, apiIex, curConv } from './Api'
+import { apiAlphaVantage, apiFinnhub, apiFmp, apiPolygon, apiIex, curConv, apiTwelve } from './Api'
 import Brazil from '../pics/flagBrazil.png'
 import Euro from '../pics/flagEuro.png'
 import USA from '../pics/flagUsa.png'
@@ -10,10 +10,11 @@ export default class BusinessCard extends Component {
         super(props);
         
         this.state = {
-            companyCod: 'BKNG',
+            companyCod: 'AAPL',
 
             companyCoin: [],
             company: [],
+            companyLastDayPrice: [],
             companyFinancials: [],
             companyFinancialsQA: [],
             companyNews: [],
@@ -36,6 +37,17 @@ export default class BusinessCard extends Component {
             })
     }
 
+    loadingLastDayPrice = async (companyCod) => {
+        const urlApi = 'https://api.twelvedata.com/time_series?symbol=' + companyCod + '&interval=1day&apikey=' + apiTwelve
+            fetch(urlApi)
+                .then(response => response.json())
+                .then(data => (
+                    this.setState({
+                        companyLastDayPrice: data.values
+                    })
+                ))
+    }
+
     loadingBusinessFinancials = async (companyCod) => {
         const urlApi = 'https://api.polygon.io/v2/reference/financials/'
         + companyCod + '?limit=20&type=YA&sort=-calendarDate&apiKey=' + apiPolygon 
@@ -44,7 +56,7 @@ export default class BusinessCard extends Component {
         .then(data => (
             this.setState({
                 companyFinancials: data.results
-            })
+                })
             ))
         }
 
@@ -57,7 +69,7 @@ export default class BusinessCard extends Component {
             this.setState({
                 companyFinancialsQA: data.results
             })
-            ))
+        ))
     }
         
     loadingChartPrice = async (companyCod) => {
@@ -215,6 +227,7 @@ export default class BusinessCard extends Component {
 
     this.setState({companyCod})
     this.loadingCompanyCard(companyCod)
+    this.loadingLastDayPrice(companyCod)
     this.loadingBusinessFinancials(companyCod)
     this.loadingBusinessFinancialsQA(companyCod)
     this.loadingBusinessNews(companyCod)
@@ -224,6 +237,7 @@ export default class BusinessCard extends Component {
 
     componentDidMount(){
         this.loadingCompanyCard(this.state.companyCod)
+        this.loadingLastDayPrice(this.state.companyCod)
         this.loadingBusinessFinancials(this.state.companyCod)
         this.loadingBusinessFinancialsQA(this.state.companyCod)
         this.loadingBusinessNews(this.state.companyCod)
@@ -234,7 +248,7 @@ export default class BusinessCard extends Component {
     }
 
     render() {
-        const {company, companyFinancials,companyFinancialsQA, companyNews, ChartPrice, companyRecommendation,companyRecommendationDate, IndexsPrices, companyCoin} = this.state
+        const {company, companyLastDayPrice, companyFinancials,companyFinancialsQA, companyNews, ChartPrice, companyRecommendation,companyRecommendationDate, IndexsPrices, companyCoin} = this.state
   
         return (
             <div className='content'>
@@ -261,24 +275,37 @@ export default class BusinessCard extends Component {
                             </div>
                             <div>
                                 <h1> {item.companyName} </h1>
-                                <h3>Stock price: <span className='stockPrice'> {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(item.price)} </span> </h3>
+                                <h3>Stock price: {item.price} </h3>
                             </div>
                         </div>
                         <p className="companyDesc"> {item.description} </p>
                     </div>
-                    <ul className="companySidebar">
-                        <li>{item.exchangeShortName}: <b>{item.symbol}</b></li>
-                        <li>IPO: <b>{(item.ipoDate).replaceAll('-','/')}</b></li>
-                        <li>Market Cap:<b> {'$' + (new Intl.NumberFormat().format(item.mktCap))}</b></li>
-                        <li>Industry:<b> {item.industry}</b></li>
-                        <li>Sector:<b> {item.sector}</b></li>
-                        <li>CEO:<b> {item.ceo}</b></li>
-                        <li>Employees:<b> {new Intl.NumberFormat().format(item.fullTimeEmployees)}</b></li>
-                        <li>Headquarters:<b> {this.formatingLetters(item.state)} - {item.country}</b></li>
-                        <li>Website:<b> <a href={item.website} target='_blank' rel="noreferrer">{(item.website).toString().slice(0,-1).replaceAll('http://','').replaceAll('https://','').replaceAll('www.','')} </a></b></li>
-                    </ul>
+                    <div className="companySidebar">
+                        <ul>
+                            <li>{item.exchangeShortName}: <b>{item.symbol}</b></li>
+                            <li>IPO: <b>{(item.ipoDate).replaceAll('-','/')}</b></li>
+                            <li>Market Cap:<b> {'$' + (new Intl.NumberFormat().format(item.mktCap))}</b></li>
+                            <li>Industry:<b> {item.industry}</b></li>
+                            <li>Sector:<b> {item.sector}</b></li>
+                            <li>CEO:<b> {item.ceo}</b></li>
+                            <li>Employees:<b> {new Intl.NumberFormat().format(item.fullTimeEmployees)}</b></li>
+                            <li>Headquarters:<b> {this.formatingLetters(item.state)} - {item.country}</b></li>
+                            <li>Website:<b> <a href={item.website} target='_blank' rel="noreferrer">{(item.website).toString().slice(0,-1).replaceAll('http://','').replaceAll('https://','').replaceAll('www.','')} </a></b></li>
+                        </ul>
+                        {companyLastDayPrice.slice(0,1).map( item => (
+                        <ul>
+                            <li> datetime: {item.datetime} </li>
+                            <li> open: {item.open} </li>
+                            <li> high: {item.high} </li>
+                            <li> low: {item.low} </li>
+                            <li> close: {item.close} </li>
+                            <li> volume: {item.volume} </li>
+                        </ul>
+                        ))}
+                    </div>
                 </div>
                 ))}
+
 
                 <div className="companyFinancials">
                     <button className="ARTitle">
@@ -377,7 +404,9 @@ export default class BusinessCard extends Component {
                 </div>
 
                 <div className="chartPrice">
-                    <h2>Historical Stock Price</h2>
+                    <div>
+                        <h2>Historical Stock Price</h2> <span>12</span> <span>60</span>
+                    </div>
                     <Line
                         data={ChartPrice}
                         options={
@@ -450,10 +479,10 @@ export default class BusinessCard extends Component {
                             <span className="sidebarTitles">Currencies</span>
                             <ul>
                                 <li>
-                                <img src={Brazil} alt="BRL/USD" /> <b>to</b> <img src={USA} alt="USA" /> <b>${new Intl.NumberFormat().format(companyCoin.BRL_USD).toString().substring(0,4)}</b>
+                                <img src={Brazil} alt="BRL/USD" /> <b>/</b> <img src={USA} alt="USA" /> <b>${new Intl.NumberFormat().format(companyCoin.BRL_USD).toString().substring(0,4)}</b>
                                 </li>
                                 <li>
-                                    <img src={Euro} alt="EUR/USD" /> <b>to</b> <img src={USA} alt="USA" /> <b>${new Intl.NumberFormat().format(companyCoin.EUR_USD).toString().substring(0,4)}</b>
+                                    <img src={Euro} alt="EUR/USD" /> <b>/</b> <img src={USA} alt="USA" /> <b>${new Intl.NumberFormat().format(companyCoin.EUR_USD).toString().substring(0,4)}</b>
                                 </li>
                             </ul>
                         </div>
