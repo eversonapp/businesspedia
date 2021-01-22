@@ -38,7 +38,7 @@ export default class BusinessCard extends Component {
     }
 
     loadingLastDayPrice = async (companyCod) => {
-        const urlApi = 'https://api.twelvedata.com/time_series?symbol=' + companyCod + '&interval=1day&apikey=' + apiTwelve
+        const urlApi = 'https://api.twelvedata.com/time_series?symbol=' + companyCod + '&interval=5min&outputsize=78&apikey=' + apiTwelve
             fetch(urlApi)
                 .then(response => response.json())
                 .then(data => (
@@ -294,7 +294,7 @@ export default class BusinessCard extends Component {
                         </ul>
                         {companyLastDayPrice.slice(0,1).map( item => (
                         <ul>
-                            <li> datetime: {item.datetime} </li>
+                            <li> datetime: {(item.datetime).replaceAll('-','/')} </li>
                             <li> open: {item.open} </li>
                             <li> high: {item.high} </li>
                             <li> low: {item.low} </li>
