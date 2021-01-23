@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import { Line, HorizontalBar } from 'react-chartjs-2'
-import { apiAlphaVantage, apiFinnhub, apiFmp, apiPolygon, apiIex, curConv, apiTwelve } from './Api'
-import Brazil from '../pics/flagBrazil.png'
-import Euro from '../pics/flagEuro.png'
-import USA from '../pics/flagUsa.png'
+import Currency from './Currency'
+import IndexPrice from './IndexPrice';
+import { apiAlphaVantage, apiFinnhub, apiFmp, apiPolygon, apiIex} from './Api'
 
 export default class BusinessCard extends Component {
     constructor(props) {
@@ -12,16 +11,13 @@ export default class BusinessCard extends Component {
         this.state = {
             companyCod: 'AAPL',
 
-            companyCoin: [],
             company: [],
-            companyLastDayPrice: [],
             companyFinancials: [],
             companyFinancialsQA: [],
             companyNews: [],
             ChartPrice:{},
             companyRecommendationDate: [],
             companyRecommendation: [],
-            IndexsPrices: [],
         }
     }
     
@@ -35,17 +31,6 @@ export default class BusinessCard extends Component {
                     company: data
                 })
             })
-    }
-
-    loadingLastDayPrice = async (companyCod) => {
-        const urlApi = 'https://api.twelvedata.com/time_series?symbol=' + companyCod + '&interval=5min&outputsize=78&apikey=' + apiTwelve
-            fetch(urlApi)
-                .then(response => response.json())
-                .then(data => (
-                    this.setState({
-                        companyLastDayPrice: data.values
-                    })
-                ))
     }
 
     loadingBusinessFinancials = async (companyCod) => {
@@ -158,28 +143,6 @@ export default class BusinessCard extends Component {
                 })
             })
     }
-    
-    loadingIndexPrices = async () => {
-        const urlApi  = 'https://financialmodelingprep.com/api/v3/quote/%5EDJI,%5EIXIC,^GSPC,^BVSP,^N100?apikey=' + apiFmp
-        fetch(urlApi)
-        .then(res => res.json())
-        .then(data => {
-            this.setState({
-                IndexsPrices: data.reverse()
-            })
-        })
-    }
-
-    loadingCurrency = async () => {
-        const apiUrl = 'https://free.currconv.com/api/v7/convert?q=EUR_USD,BRL_USD&compact=ultra&apiKey=' + curConv
-        fetch(apiUrl)
-            .then(res => res.json())
-            .then(data => {
-                this.setState({
-                    companyCoin: data
-                })
-            })
-    }
 
     formatingLetters = (string) => {
         return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
@@ -227,7 +190,6 @@ export default class BusinessCard extends Component {
 
     this.setState({companyCod})
     this.loadingCompanyCard(companyCod)
-    this.loadingLastDayPrice(companyCod)
     this.loadingBusinessFinancials(companyCod)
     this.loadingBusinessFinancialsQA(companyCod)
     this.loadingBusinessNews(companyCod)
@@ -237,18 +199,15 @@ export default class BusinessCard extends Component {
 
     componentDidMount(){
         this.loadingCompanyCard(this.state.companyCod)
-        this.loadingLastDayPrice(this.state.companyCod)
         this.loadingBusinessFinancials(this.state.companyCod)
         this.loadingBusinessFinancialsQA(this.state.companyCod)
         this.loadingBusinessNews(this.state.companyCod)
         this.loadingChartPrice(this.state.companyCod)
         this.loadingRecommendation(this.state.companyCod)
-        this.loadingCurrency()
-        this.loadingIndexPrices()
     }
 
     render() {
-        const {company, companyLastDayPrice, companyFinancials,companyFinancialsQA, companyNews, ChartPrice, companyRecommendation,companyRecommendationDate, IndexsPrices, companyCoin} = this.state
+        const {company, companyFinancials,companyFinancialsQA, companyNews, ChartPrice, companyRecommendation,companyRecommendationDate} = this.state
   
         return (
             <div className='content'>
@@ -273,14 +232,18 @@ export default class BusinessCard extends Component {
                             <div className="companyLogo">
                                 <img src={item.image} alt='Logo' />
                             </div>
-                            <div>
-                                <h1> {item.companyName} </h1>
-                                <h3>Stock price: {item.price} </h3>
-                            </div>
+                            <h1> {item.companyName} </h1>
                         </div>
                         <p className="companyDesc"> {item.description} </p>
                     </div>
                     <div className="companySidebar">
+                        <ul className="stockPriceMatters" style={{background: Math.sign(item.changes) === -1 ? "#DB4437" : "#0F9D58"}}>
+                            <li>Stock Price</li>
+                            <li className="stockPrice">{"$" + (item.price)}</li>
+                            <li className="stockChanges">
+                                {"$" + (item.changes)} {((new Intl.NumberFormat().format((item.changes) / (item.price) * 100)) + "%")}
+                            </li>
+                        </ul>
                         <ul>
                             <li>{item.exchangeShortName}: <b>{item.symbol}</b></li>
                             <li>IPO: <b>{(item.ipoDate).replaceAll('-','/')}</b></li>
@@ -290,18 +253,8 @@ export default class BusinessCard extends Component {
                             <li>CEO:<b> {item.ceo}</b></li>
                             <li>Employees:<b> {new Intl.NumberFormat().format(item.fullTimeEmployees)}</b></li>
                             <li>Headquarters:<b> {this.formatingLetters(item.state)} - {item.country}</b></li>
-                            <li>Website:<b> <a href={item.website} target='_blank' rel="noreferrer">{(item.website).toString().slice(0,-1).replaceAll('http://','').replaceAll('https://','').replaceAll('www.','')} </a></b></li>
+                            <li>Website:<b> <a href={item.website} target='_blank' rel="noreferrer">{(item.website).toString().replaceAll('http://','').replaceAll('https://','').replaceAll('www.','').replaceAll('.com/','.com')} </a></b></li>
                         </ul>
-                        {companyLastDayPrice.slice(0,1).map( item => (
-                        <ul>
-                            <li> datetime: {(item.datetime).replaceAll('-','/')} </li>
-                            <li> open: {item.open} </li>
-                            <li> high: {item.high} </li>
-                            <li> low: {item.low} </li>
-                            <li> close: {item.close} </li>
-                            <li> volume: {item.volume} </li>
-                        </ul>
-                        ))}
                     </div>
                 </div>
                 ))}
@@ -405,7 +358,7 @@ export default class BusinessCard extends Component {
 
                 <div className="chartPrice">
                     <div>
-                        <h2>Historical Stock Price</h2> <span>12</span> <span>60</span>
+                        <h2>Historical Stock Price</h2>
                     </div>
                     <Line
                         data={ChartPrice}
@@ -432,9 +385,8 @@ export default class BusinessCard extends Component {
                                 <img src={item.image} alt={item.related} title={item.related} />
                             </div>
                             <div className="companyNewsTxt">
-                                <h2> {item.headline} </h2>
-                                <p> {(item.summary).substring(0,140) + "..."} </p>
                                 <h6> {item.source} </h6>
+                                <h2> {item.headline} </h2>
                             </div>
                         </a>
                         ))}
@@ -449,7 +401,6 @@ export default class BusinessCard extends Component {
                                         legend: {
                                             display: false,
                                         },
-                                        
                                     }}
                                 />
                                 {companyRecommendationDate.slice(0,1).map(item => (
@@ -457,35 +408,8 @@ export default class BusinessCard extends Component {
                                 ))}
                             </div>
                         </div>
-                        
-                        <div className="indixes">
-                            <span className="sidebarTitles">Market Indixes</span>
-                            {IndexsPrices.map(item => (
-                            <ul>
-                                <li className="indexesName"> 
-                                    {(item.name).replaceAll(' Composite', '').replaceAll(' Industrial Average', '')}
-                                </li>
-                                <li className="indexesPrice">
-                                    {new Intl.NumberFormat().format(item.price)}
-                                </li>
-                                <li className="indexesChanges" style={{color: Math.sign(item.change) === -1 ? "#DB4437" : "#0F9D58"}}>
-                                    <span>{(((item.change) > 0) ? ("+" + (item.change)) : (item.change))}</span>
-                                    <span>{item.changesPercentage}%</span>
-                                </li>
-                            </ul>
-                            ))}
-                        </div>
-                        <div className="currency">
-                            <span className="sidebarTitles">Currencies</span>
-                            <ul>
-                                <li>
-                                <img src={Brazil} alt="BRL/USD" /> <b>/</b> <img src={USA} alt="USA" /> <b>${new Intl.NumberFormat().format(companyCoin.BRL_USD).toString().substring(0,4)}</b>
-                                </li>
-                                <li>
-                                    <img src={Euro} alt="EUR/USD" /> <b>/</b> <img src={USA} alt="USA" /> <b>${new Intl.NumberFormat().format(companyCoin.EUR_USD).toString().substring(0,4)}</b>
-                                </li>
-                            </ul>
-                        </div>
+                        <Currency />
+                        <IndexPrice />
                     </div>
                 </div>
 
