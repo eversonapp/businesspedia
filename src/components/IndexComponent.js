@@ -26,25 +26,18 @@ export default class IndexPrice extends Component {
     }
 
     render() {
-        
         const { IndexsPrices } = this.state
+        
         return (
-            <div className="indixes">
+                <div className="custom-index col">
                 {IndexsPrices.map(item => (
-                <ul>
-                    <li className="indexesName"> 
-                        {(item.name).replaceAll(' Composite', '').replaceAll(' Industrial Average', '')}
-                    </li>
-                    <li className="indexesPrice">
-                        {new Intl.NumberFormat().format(item.price)}
-                    </li>
-                    <li className="indexesChanges" style={{color: Math.sign(item.change) === -1 ? "#DB4437" : "#0F9D58"}}>
-                        <span>{(((item.change) > 0) ? ("+" + (item.change)) : (item.change))}</span>
-                        <span>{item.changesPercentage}%</span>
-                    </li>
-                </ul>
+                    <>
+                    <h2>{(item.name).replaceAll(' Composite', '').replaceAll(' Industrial Average', '')}</h2>
+                    <h4>{new Intl.NumberFormat().format(item.price)}</h4>
+                    <h5 style={{color: Math.sign(item.change) === -1 ? "#DB4437" : "#0F9D58"}}>{(((item.change) > 0) ? ("+" + (item.change)) : (item.change))} {item.changesPercentage}%</h5>
+                    </>
                 ))}
-            </div>
+                </div>
         );
     }
 }

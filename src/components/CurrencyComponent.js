@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import Brazil from '../pics/flagBrazil.png'
-import Euro from '../pics/flagEuro.png'
-import USA from '../pics/flagUsa.png'
 import { curConv } from './Api'
 
 export default class Currency extends Component {
@@ -33,17 +30,14 @@ export default class Currency extends Component {
         const {companyCoin} = this.state
 
         return (
-            <div className="currency">
-                <span className="sidebarTitles">CURRENCIES</span>
-                <ul>
+                <ul className="custom-currency col">
                     <li>
-                    <img src={Brazil} alt="BRL/USD" /> <b>/</b> <img src={USA} alt="USA" /> <b>${new Intl.NumberFormat().format(companyCoin.BRL_USD).toString().substring(0,4)}</b>
+                        <img src="./img/flagBrazil.png" alt="BRL/USD" className="img-fluid" /> <b>/</b> <img src="./img/flagUsa.png" className="img-fluid" alt="USA" /> <b>${new Intl.NumberFormat().format(companyCoin.BRL_USD).toString().substring(0,4)}</b>
                     </li>
                     <li>
-                        <img src={Euro} alt="EUR/USD" /> <b>/</b> <img src={USA} alt="USA" /> <b>${new Intl.NumberFormat().format(companyCoin.EUR_USD).toString().substring(0,4)}</b>
+                        <img src="./img/flagEuro.png" alt="EUR/USD" className="img-fluid" /> <b>/</b> <img src="./img/flagUsa.png" className="img-fluid" alt="USA" /> <b>${new Intl.NumberFormat().format(companyCoin.EUR_USD).toString().substring(0,4)}</b>
                     </li>
                 </ul>
-            </div>
         );
     }
 }

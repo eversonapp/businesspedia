@@ -1,11 +1,12 @@
-import gitHub from '../pics/github.png'
-
 export default function Footer() {
     return(
         <footer className="footer">
-            <div className="footerContainer">
+            <div className="container">
                 <a href='https://github.com/eversonapp/businesspedia' target="_blank" rel='noreferrer'>
-                    <img src={gitHub} title='GitHub' alt='GitHub' />
+                    <img src="./img/github.png" title='GitHub' alt='GitHub' />
+                </a>
+                <a href='https://everson.app' target="_blank" rel='noreferrer'>
+                <img src="./img/eversonapp.png" title='eversonapp' alt='eversonapp' />
                 </a>
             </div>
         </footer>
