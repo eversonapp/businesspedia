@@ -136,7 +136,8 @@ export default class Main extends Component {
                 <Nav />
                 <div className="container">
                     <div>
-                        <input autoFocus className="custom-search form-control btn-lg" list="datalistOptions" placeholder="Type to search..." value={this.state.companyCod} onChange={this.changeHandler} />
+                        <label for="datalistOptions" class="custom-search form-label">Type the company name or symbol</label>
+                        <input autoFocus className="form-control btn-lg" list="datalistOptions" placeholder="Type to search..." value={this.state.companyCod} onChange={this.changeHandler} />
                         <datalist id="datalistOptions">
                             {companiesList.map(item => (
                             <option id={item.symbol} value={item.symbol}> {item.name} </option> 

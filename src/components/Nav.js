@@ -8,6 +8,7 @@ export default function Navbar() {
                     <img src='./img/logo.svg' alt='Businesspedia' title='Businesspedia' />
                     Stockpedia
               </span>
+              <span className="fw-light fs-4">Fundamental Data</span>
             </div>  
         </nav>
     )
