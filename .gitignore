@@ -8,6 +8,9 @@ Api.js
 /.pnp
 .pnp.js
 
+# production
+/build
+
 # testing
 /coverage
 
