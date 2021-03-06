@@ -13,7 +13,7 @@ nav{
     .logo{
         font-size: 2rem;
         font-weight: bold;
-
+        
         img{
             height: 50px;
             margin-right: 25px;
@@ -32,16 +32,7 @@ nav{
     border: 1px solid #e4e4e4;
     border-radius: 4px;
     margin-top: 20px;
-
-    img{
-        height: 100px;
-        margin-right: 25px;
-    }
-
-    .company-name{
-        font-size: 2rem;
-        font-weight: bold;
-    }
+    
     .stockPriceMatters{
         text-align: center;
         text-transform: uppercase;
@@ -95,8 +86,17 @@ nav{
     padding-bottom: 20px;
     border-bottom: 1px solid #cecece;
     color: #111;
+
+    h4{
+        font-weight: bold;
+    }
+
     h6{
         color: #DB4437;
+    }
+
+    p{
+        color: #333;
     }
 
     &:hover{
@@ -156,13 +156,30 @@ nav{
 .custom-index{
     text-align: center;
     background: #ffffff;
-    padding: 20px;
     border: 1px solid #cecece;
     border-radius: 4px;
-    h5{
-        margin-bottom: 20px;
+    
+    .content{
+        border-bottom: 1px solid #cecece;
+        padding: 20px 0;
+        transition: 400ms ease-in-out;
+        &:hover{
+            background: #cecece40;
+            border-radius: 4px;
+        }
         &:last-of-type{
-            margin-bottom: 0;
+            border: 0;
+        }
+
+        h2{
+            font-weight: bold;
+        }
+
+        h5{
+            margin-bottom: 20px;
+            &:last-of-type{
+                margin-bottom: 0;
+            }
         }
     }
 }

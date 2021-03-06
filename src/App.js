@@ -15,11 +15,15 @@ import FinancialComponent from './components/FinancialComponent'
 import NewsComponent from './components/NewsComponent';
 import CurrencyComponent from './components/CurrencyComponent'
 import IndexComponent from './components/IndexComponent';
+import LoadPageComponent from "./components/LoadPageComponent";
 
 export default class Main extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            error: null,
+            isLoadead: false,
+
             companyCod: 'AAPL',
             Card: [],
             companyFinancials: [],
@@ -36,9 +40,18 @@ export default class Main extends Component {
             .then(res => res.json())
             .then(data =>{
                 this.setState({
+                    isLoadead: true,
                     Card: data
                 })
-            })
+            },
+            //ERROR
+            (error) => {
+                this.setState({
+                    isLoadead: true,
+                    error
+                })
+            }
+            )
     }
 
     loadFinancial = async companyCod => {
@@ -47,7 +60,15 @@ export default class Main extends Component {
         .then(response => response.json())
         .then(data => (
             this.setState({
+                isLoadead: true,
                 companyFinancials: data.results
+                },
+                //ERROR
+                (error) => {
+                    this.setState({
+                        isLoadead: true,
+                        error
+                    })
                 })
             ))
     }
@@ -65,6 +86,7 @@ export default class Main extends Component {
                         priceChart.push(data['Monthly Adjusted Time Series'][key]['5. adjusted close']);
                       }
                     pointerToThis.setState({
+                        isLoadead: true,
                         companyPrice: {
                             labels: dataChart.slice(0,240).reverse(),
                             datasets: [{
@@ -74,6 +96,13 @@ export default class Main extends Component {
                                 data: priceChart.slice(0,240).reverse()
                             }]
                         }
+                    },
+                    //ERROR
+                    (error) => {
+                        this.setState({
+                            isLoadead: true,
+                            error
+                        })
                     })
                 }
             )
@@ -85,7 +114,15 @@ export default class Main extends Component {
             .then(res => res.json())
             .then(data => {
                 this.setState({
+                    isLoadead: true,
                     companyNews: data
+                },
+                //ERROR
+                (error) => {
+                    this.setState({
+                        isLoadead: true,
+                        error
+                    })
                 })
             })
     }
@@ -96,6 +133,7 @@ export default class Main extends Component {
             .then(res => res.json())
             .then(data => {
                 this.setState({
+                    isLoadead: true,
                     companyRecommendationDate: data,
                     companyRecommendation: {
                         labels: ["Strong Buy", "Buy", "Hold", "Sell", "Strong Sell"],
@@ -106,6 +144,13 @@ export default class Main extends Component {
                             borderWidth: 1
                         }]
                     }
+                },
+                //ERROR
+                (error) => {
+                    this.setState({
+                        isLoadead: true,
+                        error
+                    })
                 })
             })
     }
@@ -129,130 +174,138 @@ export default class Main extends Component {
     }
 
     render() {
+        const { error, isLoadead } = this.state
         const {Card, companyFinancials, companyNews, companyPrice, companyRecommendation,companyRecommendationDate} = this.state
-  
-        return (
-            <>
-                <Nav />
-                <div className="container">
-                    <div>
-                        <label for="datalistOptions" class="custom-search form-label">Type the company name or symbol</label>
-                        <input autoFocus className="form-control btn-lg" list="datalistOptions" placeholder="Type to search..." value={this.state.companyCod} onChange={this.changeHandler} />
-                        <datalist id="datalistOptions">
-                            {companiesList.map(item => (
-                            <option id={item.symbol} value={item.symbol}> {item.name} </option> 
-                            ))}
-                        </datalist>
-                    </div>
-                    
-                    {Card.map(item => (
-                    <CardComponent 
-                        companyName={item.companyName}
-                        image={item.image}
-                        description={item.description}
-                        changes={item.changes}
-                        exchangeShortName={item.exchangeShortName}
-                        symbol={item.symbol}
-                        ipoDate={item.ipoDate}
-                        mktCap={item.mktCap}
-                        industry={item.industry}
-                        sector={item.sector}
-                        ceo={item.ceo}
-                        price={item.price}
-                        fullTimeEmployees={item.fullTimeEmployees}
-                        state={item.state}
-                        country={item.country}
-                        website={item.website}
-                    />
-                    ))}
-
-                    <div className="custom-financial container">
-                        <h2>Annual Reports</h2>
-                        <div className="table-responsive">
-                            <table className="table table-bordered table-striped table-hover">
-                                <thead>
-                                    <tr className="align-middle">
-                                        <th>Year</th>
-                                        <th>Equity</th>
-                                        <th>Revenue</th>
-                                        <th>EBITDA</th>
-                                        <th>Net Income</th>
-                                        <th>Net Margin</th>
-                                        <th>ROE</th>
-                                        <th>Cash</th>
-                                        <th>Debt</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {companyFinancials.slice(0,10).map(item => (
-                                    <FinancialComponent 
-                                        calendarDate={item.calendarDate}
-                                        shareholdersEquity={item.shareholdersEquity}
-                                        revenues={item.revenues}
-                                        earningsBeforeInterestTaxesDepreciationAmortization={item.earningsBeforeInterestTaxesDepreciationAmortization}
-                                        netIncome={item.netIncome}
-                                        returnOnAverageEquity={item.returnOnAverageEquity}
-                                        cashAndEquivalents={item.cashAndEquivalents}
-                                        debt={item.debt}
-                                    />
-                                    ))}
-                                </tbody>
-                            </table>    
+        
+        if(error){
+            return <div> ERROR: {error.message} </div>
+        }
+        else if(!isLoadead){
+            return <LoadPageComponent />
+        }
+        else{
+            return (
+                <>
+                    <Nav />
+                    <div className="container">
+                        <div className="custom-search">
+                            <select className="form-select form-select-lg" id="datalistOptions" value={this.state.companyCod} onChangeCapture={this.changeHandler} autoFocus>
+                                {companiesList.map(item => (
+                                    <option id={item.symbol} value={item.symbol}> {item.name} ({item.symbol}) </option> 
+                                ))}
+                            </select>
                         </div>
-                    </div>
-                            
-                    <div className="custom-price">
-                        <h2>Historical Stock Price</h2>
-                        <Line
-                            data={companyPrice}
-                            options={
-                                { scales: {
-                                    xAxes: [
-                                        {
-                                            ticks: {
-                                                fontSize: 10,
-                                            }
-                                        }
-                                    ]
-                                }}
-                                }
-                            /> 
-                    </div>
-                    <div className="row row-cols-1 row-cols-lg-2">
-                        <div className="col col-lg-8">
-                            {companyNews.map(item => (
-                            <NewsComponent 
-                                url={item.url}
-                                image={item.image}
-                                related={item.related}
-                                source={item.source}
-                                headline={item.headline}
-                            />
-                            ))}
-                        </div>
-
-                        <div className="col col-lg-4">
-                            <div className="custom-recommendation col">
-                                <div className="p-2">
-                                    <HorizontalBar
-                                        data={companyRecommendation} options={{
-                                            legend: {
-                                                display: false,
-                                            },
-                                        }}
-                                    />
-                                    {companyRecommendationDate.slice(0,1).map(item => (
-                                        <h5>{item.symbol} Analyse: <b>{(item.period).replaceAll('-','/')}</b> </h5>
-                                    ))}
-                                </div>
+                        
+                        {Card.map(item => (
+                        <CardComponent 
+                            companyName={item.companyName}
+                            image={item.image}
+                            description={item.description}
+                            changes={item.changes}
+                            exchangeShortName={item.exchangeShortName}
+                            symbol={item.symbol}
+                            ipoDate={item.ipoDate}
+                            mktCap={item.mktCap}
+                            industry={item.industry}
+                            sector={item.sector}
+                            ceo={item.ceo}
+                            price={item.price}
+                            fullTimeEmployees={item.fullTimeEmployees}
+                            state={item.state}
+                            country={item.country}
+                            website={item.website}
+                        />
+                        ))}
+    
+                        <div className="custom-financial container">
+                            <h2><b>Annual Reports</b></h2>
+                            <div className="table-responsive">
+                                <table className="table table-bordered table-striped table-hover">
+                                    <thead>
+                                        <tr className="align-middle">
+                                            <th>Year</th>
+                                            <th>Equity</th>
+                                            <th>Revenue</th>
+                                            <th>EBITDA</th>
+                                            <th>Net Income</th>
+                                            <th>Net Margin</th>
+                                            <th>ROE</th>
+                                            <th>Cash</th>
+                                            <th>Debt</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {companyFinancials.slice(0,10).map(item => (
+                                        <FinancialComponent 
+                                            calendarDate={item.calendarDate}
+                                            shareholdersEquity={item.shareholdersEquity}
+                                            revenues={item.revenues}
+                                            earningsBeforeInterestTaxesDepreciationAmortization={item.earningsBeforeInterestTaxesDepreciationAmortization}
+                                            netIncome={item.netIncome}
+                                            returnOnAverageEquity={item.returnOnAverageEquity}
+                                            cashAndEquivalents={item.cashAndEquivalents}
+                                            debt={item.debt}
+                                        />
+                                        ))}
+                                    </tbody>
+                                </table>    
                             </div>
-                            <CurrencyComponent />
-                            <IndexComponent />
+                        </div>
+                                
+                        <div className="custom-price">
+                            <h2><b>Historical Stock Price</b></h2>
+                            <Line
+                                data={companyPrice}
+                                options={
+                                    { scales: {
+                                        xAxes: [
+                                            {
+                                                ticks: {
+                                                    fontSize: 10,
+                                                }
+                                            }
+                                        ]
+                                    }}
+                                    }
+                                /> 
+                        </div>
+                        <div className="row row-cols-1 row-cols-lg-2">
+                            <div className="col col-lg-8">
+                                {companyNews.map(item => (
+                                <NewsComponent 
+                                    url={item.url}
+                                    image={item.image}
+                                    related={item.related}
+                                    source={item.source}
+                                    headline={item.headline}
+                                    summary={item.summary}
+                                />
+                                ))}
+                            </div>
+    
+                            <div className="col col-lg-4">
+                                <div className="custom-recommendation col">
+                                    <div className="p-2">
+                                        <HorizontalBar
+                                            data={companyRecommendation} options={{
+                                                legend: {
+                                                    display: false,
+                                                },
+                                            }}
+                                        />
+                                        {companyRecommendationDate.slice(0,1).map(item => (
+                                            <h5>{item.symbol} Analyse: <b>{(item.period).replaceAll('-','/')}</b> </h5>
+                                        ))}
+                                    </div>
+                                </div>
+                                <CurrencyComponent />
+                                <IndexComponent />
+                            </div>
                         </div>
                     </div>
-                </div>
-                <Footer />
-            </>
-        );
+                    <Footer />
+                </>
+            );
+        }
     }
 }

@@ -7,7 +7,8 @@ export default function NewsComponent(props) {
                     </div>
                     <div className="col">
                         <h6> {props.source} </h6>
-                        <h3> {props.headline} </h3>
+                        <h4> {(props.headline).toString().substring(0,120)} </h4>
+                        <p> {(props.summary).toString().substring(0,120)}. </p>
                     </div>
                 </div>
             </a>

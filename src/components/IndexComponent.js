@@ -31,11 +31,11 @@ export default class IndexPrice extends Component {
         return (
                 <div className="custom-index col">
                 {IndexsPrices.map(item => (
-                    <>
-                    <h2>{(item.name).replaceAll(' Composite', '').replaceAll(' Industrial Average', '')}</h2>
-                    <h4>{new Intl.NumberFormat().format(item.price)}</h4>
-                    <h5 style={{color: Math.sign(item.change) === -1 ? "#DB4437" : "#0F9D58"}}>{(((item.change) > 0) ? ("+" + (item.change)) : (item.change))} {item.changesPercentage}%</h5>
-                    </>
+                    <div className="content">
+                        <h2>{(item.name).replaceAll(' Composite', '').replaceAll(' Industrial Average', '')}</h2>
+                        <h4>{new Intl.NumberFormat().format(item.price)}</h4>
+                        <h5 style={{color: Math.sign(item.change) === -1 ? "#DB4437" : "#0F9D58"}}>{(((item.change) > 0) ? ("+" + (item.change)) : (item.change))} {item.changesPercentage}%</h5>
+                    </div>
                 ))}
                 </div>
         );

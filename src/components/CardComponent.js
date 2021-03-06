@@ -7,10 +7,14 @@ export default function CardComponent(props) {
         <div className="custom-card container">
             <div className='row row-cols-1 row-cols-lg-2 py-2' key={props.companyName}>
                 <div className="col col-lg-8">
-                    <span className="navbar-brand">
-                        <img src={props.image} alt={props.companyName} title={props.companyName} className="d-inline-block align-middle" />
-                        <span className="company-name">{props.companyName}</span>
-                    </span>
+                    <div className="row justify-content-md-center">
+                        <div className="col-sm-12 col-md-auto">
+                            <img src={props.image} alt={props.companyName} title={props.companyName} style={{height:"4rem"}} />
+                        </div>
+                        <div className="col">
+                            <span className="fw-bold fs-1"> {props.companyName} </span>
+                        </div>
+                    </div>
                     <p> {props.description} </p>
                 </div>
                 <div className="col col-lg-4">
